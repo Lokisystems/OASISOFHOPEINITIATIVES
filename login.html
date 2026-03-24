@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="icon" type="image/x-icon" href="assets/images/hero/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152210",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+    <div
+        class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+        <div class="max-w-md mx-auto w-full flex flex-col min-h-screen">
+            <!-- Header -->
+            <div class="flex items-center bg-transparent p-4 pb-2 justify-between">
+                <div class="text-slate-900 dark:text-slate-100 flex size-12 shrink-0 items-center justify-start">
+                    <a href="index.html"
+                        class="material-symbols-outlined cursor-pointer text-slate-900 dark:text-slate-100"
+                        style="font-size: 24px; text-decoration: none;">arrow_back</a>
+                </div>
+                <a href="index.html" class="flex items-center gap-2 group decoration-none flex-1 justify-center pr-12">
+                    <img src="assets/images/hero/logo.png" alt="Oasis of Hope Logo" class="w-8 h-8 rounded-lg" />
+                </a>
+            </div>
+            <!-- Hero Section -->
+            <div class="@container">
+                <div class="@[480px]:px-4 @[480px]:py-3">
+                    <div class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden bg-slate-200 dark:bg-slate-800 @[480px]:rounded-lg min-h-[200px]"
+                        data-alt="Happy diverse community members holding hands in nature"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBdkoR7bhTkYoDYRmnIpLQkuVfJbS4vTu2FKFHoGNsGAzfOOBl8UlMKEvdha0Rjv5-p0Vc0LX3UTWeewHrlXR5GEg48qy8OxHMqpMSn_EOdDLh-slND8Nz7SGZH4cAjEcoYAnkW7p9PCJPEJEuIHwqYqjG93RNrhZHrpA-JcKeskIcAdiHoNN94k-7BLCsnqpGGDsrrOGVo5iHGBOw7TDEkwc18PQjxfDOXRtX6w8vqhfIGknme_g0j8qDvQk5uZUx3iDenFGO5dkVI");'>
+                    </div>
+                </div>
+            </div>
+            <div class="px-4 text-center">
+                <h1
+                    class="text-slate-900 dark:text-slate-100 tracking-light text-[28px] font-bold leading-tight pb-2 pt-6">
+                    Welcome Back</h1>
+                <p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-normal pb-4">Empowering
+                    communities together for a brighter future.</p>
+            </div>
+            <!-- Role Selector -->
+            <div class="flex px-4 py-3">
+                <div
+                    class="flex h-11 flex-1 items-center justify-center rounded-xl bg-slate-200/50 dark:bg-slate-800/50 p-1">
+                    <label
+                        class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm has-[:checked]:text-primary text-slate-600 dark:text-slate-400 text-sm font-semibold leading-normal transition-all">
+                        <span class="truncate">User Login</span>
+                        <input checked="" class="invisible w-0" name="portal-type" type="radio" value="User Login" />
+                    </label>
+                    <label
+                        class="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-lg px-2 has-[:checked]:bg-white dark:has-[:checked]:bg-slate-700 has-[:checked]:shadow-sm has-[:checked]:text-primary text-slate-600 dark:text-slate-400 text-sm font-semibold leading-normal transition-all">
+                        <span class="truncate">Admin Portal</span>
+                        <input class="invisible w-0" name="portal-type" type="radio" value="Admin Portal" />
+                    </label>
+                </div>
+            </div>
+            <!-- Login Form -->
+            <div class="flex flex-col gap-1.5 px-4 pt-4">
+                <label class="text-sm font-semibold text-slate-700 dark:text-slate-300 px-1">Email</label>
+                <input id="login-email"
+                    class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                    placeholder="hello@oasis.org" type="email" />
+            </div>
+            <div class="flex flex-col gap-1.5">
+                <div class="flex justify-between items-center px-1">
+                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Password</label>
+                    <a class="text-xs font-semibold text-primary hover:underline cursor-pointer" onclick="document.getElementById('forgotModal').classList.remove('hidden')">Forgot password?</a>
+                </div>
+                <div class="relative">
+                    <input id="login-password"
+                        class="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-slate-100 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                        placeholder="••••••••" type="password" />
+                    <span
+                        class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 cursor-pointer"
+                        id="toggle-password" style="font-size: 20px;">visibility_off</span>
+                </div>
+            </div>
+            <button id="login-btn"
+                class="w-full bg-primary text-slate-900 font-bold py-3.5 rounded-xl shadow-lg shadow-primary/20 active:scale-[0.98] transition-all mt-2">
+                Sign In
+            </button>
+        </div>
+        <!-- Social Login Divider -->
+        <div class="flex items-center gap-4 px-4 py-2">
+            <div class="h-px grow bg-slate-200 dark:bg-slate-800"></div>
+            <span class="text-xs font-medium text-slate-400 uppercase tracking-widest">or continue with</span>
+            <div class="h-px grow bg-slate-200 dark:bg-slate-800"></div>
+        </div>
+        <!-- Social Buttons -->
+        <div class="px-4 py-4">
+            <button id="google-login-btn" onclick="Auth.socialLogin('google')"
+                class="w-full flex items-center justify-center gap-2 rounded-xl border border-slate-200 dark:border-slate-700 py-3 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                <svg class="w-5 h-5" viewbox="0 0 24 24">
+                    <path
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                        fill="#4285F4"></path>
+                    <path
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                        fill="#34A853"></path>
+                    <path
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                        fill="#FBBC05"></path>
+                    <path
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                        fill="#EA4335"></path>
+                </svg>
+                <span class="text-sm font-semibold">Continue with Google</span>
+            </button>
+        </div>
+        <!-- Footer Call to Action -->
+        <div class="mt-auto px-4 py-8 text-center">
+            <p class="text-slate-600 dark:text-slate-400 text-sm">
+                Don't have an account?
+                <a class="text-primary font-bold ml-1 hover:underline" href="signup.html">Sign Up</a>
+            </p>
+        </div>
+        <!-- Bottom Decoration -->
+        <div class="h-2 w-full bg-gradient-to-r from-primary/10 via-primary to-primary/10"></div>
+    </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotModal" class="fixed inset-0 z-[100] hidden overflow-y-auto">
+        <div class="flex min-h-screen items-center justify-center p-4">
+            <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="document.getElementById('forgotModal').classList.add('hidden')"></div>
+            <div class="relative w-full max-w-sm rounded-2xl bg-white dark:bg-slate-900 p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Reset Password</h3>
+                    <button onclick="document.getElementById('forgotModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-500">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <p class="text-sm text-slate-500 mb-4">Enter your email address and we'll send you a link to reset your password.</p>
+                <div class="flex flex-col gap-1.5 mb-4">
+                    <label class="text-xs font-bold uppercase text-slate-500">Email Address</label>
+                    <input type="email" id="forgot-email" placeholder="hello@oasis.org"
+                        class="w-full px-4 py-2.5 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary" />
+                </div>
+                <div id="forgot-message" class="hidden text-sm mb-3 px-3 py-2 rounded-lg"></div>
+                <button id="forgot-btn" onclick="handleForgotPassword()"
+                    class="w-full bg-primary text-slate-900 font-bold py-2.5 rounded-xl text-sm transition-all">
+                    Send Reset Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal (appears when user returns from email link) -->
+    <div id="resetModal" class="fixed inset-0 z-[100] hidden overflow-y-auto">
+        <div class="flex min-h-screen items-center justify-center p-4">
+            <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
+            <div class="relative w-full max-w-sm rounded-2xl bg-white dark:bg-slate-900 p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
+                <div class="text-center mb-4">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <span class="material-symbols-outlined text-primary text-3xl">lock_reset</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Set New Password</h3>
+                    <p class="text-sm text-slate-500 mt-1">Choose a strong password for your account.</p>
+                </div>
+                <div class="flex flex-col gap-3 mb-4">
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold uppercase text-slate-500">New Password</label>
+                        <input type="password" id="reset-password" placeholder="••••••••"
+                            class="w-full px-4 py-2.5 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary" />
+                    </div>
+                    <div class="flex flex-col gap-1.5">
+                        <label class="text-xs font-bold uppercase text-slate-500">Confirm Password</label>
+                        <input type="password" id="reset-password-confirm" placeholder="••••••••"
+                            class="w-full px-4 py-2.5 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary" />
+                    </div>
+                </div>
+                <div id="reset-message" class="hidden text-sm mb-3 px-3 py-2 rounded-lg"></div>
+                <button id="reset-btn" onclick="handleResetPassword()"
+                    class="w-full bg-primary text-slate-900 font-bold py-2.5 rounded-xl text-sm transition-all">
+                    Update Password
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/supabase.js"></script>
+    <script src="assets/js/auth.js"></script>
+
+    <script>
+        // --- Forgot Password Handler ---
+        async function handleForgotPassword() {
+            const email = document.getElementById('forgot-email').value.trim();
+            const btn = document.getElementById('forgot-btn');
+            const msgEl = document.getElementById('forgot-message');
+
+            if (!email) {
+                showMessage(msgEl, 'Please enter your email address.', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Sending...';
+
+            try {
+                const { error } = await window.RemoteDB.client.auth.resetPasswordForEmail(email, {
+                    redirectTo: window.location.origin + '/login.html'
+                });
+
+                if (error) throw error;
+
+                showMessage(msgEl, 'Reset link sent! Check your email inbox (and spam folder).', 'success');
+                btn.textContent = 'Email Sent ✓';
+            } catch (err) {
+                console.error('[Auth] Password reset error:', err);
+                showMessage(msgEl, 'Failed to send reset email. Please try again.', 'error');
+                btn.disabled = false;
+                btn.textContent = 'Send Reset Link';
+            }
+        }
+
+        // --- Reset Password Handler (after user clicks email link) ---
+        async function handleResetPassword() {
+            const password = document.getElementById('reset-password').value;
+            const confirm = document.getElementById('reset-password-confirm').value;
+            const btn = document.getElementById('reset-btn');
+            const msgEl = document.getElementById('reset-message');
+
+            if (!password || password.length < 6) {
+                showMessage(msgEl, 'Password must be at least 6 characters.', 'error');
+                return;
+            }
+            if (password !== confirm) {
+                showMessage(msgEl, 'Passwords do not match.', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Updating...';
+
+            try {
+                const { error } = await window.RemoteDB.client.auth.updateUser({ password });
+                if (error) throw error;
+
+                showMessage(msgEl, 'Password updated! Redirecting to login...', 'success');
+                setTimeout(() => {
+                    document.getElementById('resetModal').classList.add('hidden');
+                    // Sign out so they can log in fresh with the new password
+                    window.RemoteDB.client.auth.signOut();
+                }, 2000);
+            } catch (err) {
+                console.error('[Auth] Password update error:', err);
+                showMessage(msgEl, 'Failed to update password: ' + err.message, 'error');
+                btn.disabled = false;
+                btn.textContent = 'Update Password';
+            }
+        }
+
+        // --- Helper: show message in modal ---
+        function showMessage(el, text, type) {
+            el.textContent = text;
+            el.classList.remove('hidden', 'bg-red-50', 'text-red-600', 'bg-green-50', 'text-green-600',
+                'dark:bg-red-900/20', 'dark:text-red-400', 'dark:bg-green-900/20', 'dark:text-green-400');
+            if (type === 'error') {
+                el.classList.add('bg-red-50', 'text-red-600', 'dark:bg-red-900/20', 'dark:text-red-400');
+            } else {
+                el.classList.add('bg-green-50', 'text-green-600', 'dark:bg-green-900/20', 'dark:text-green-400');
+            }
+        }
+
+        // --- Main Page Logic ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('Page loaded, initializing Auth...');
+            try {
+                if (typeof Auth === 'undefined') {
+                    alert('Critical: Auth script failed to load. Check console for errors.');
+                    return;
+                }
+                // Auth auto-initializes in auth.js
+                console.log('Auth logic ready');
+            } catch (e) {
+                console.error('Auth initialization error', e);
+                alert('Auth initialization error: ' + e.message);
+            }
+
+            // Detect if user arrived via a password recovery link
+            // Supabase puts the recovery token in the URL hash
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            if (hashParams.get('type') === 'recovery') {
+                console.log('[Auth] Password recovery token detected, showing reset modal.');
+                document.getElementById('resetModal').classList.remove('hidden');
+            }
+
+            // Also listen for the PASSWORD_RECOVERY auth event
+            if (window.RemoteDB && window.RemoteDB.client) {
+                window.RemoteDB.client.auth.onAuthStateChange((event, session) => {
+                    if (event === 'PASSWORD_RECOVERY') {
+                        console.log('[Auth] PASSWORD_RECOVERY event received.');
+                        document.getElementById('resetModal').classList.remove('hidden');
+                    }
+                });
+            }
+
+            const loginBtn = document.getElementById('login-btn');
+            const emailInput = document.getElementById('login-email');
+            const passwordInput = document.getElementById('login-password');
+            const togglePassword = document.getElementById('toggle-password');
+
+            if (togglePassword) {
+                togglePassword.onclick = () => {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    togglePassword.textContent = type === 'password' ? 'visibility_off' : 'visibility';
+                };
+            }
+
+            loginBtn.onclick = async () => {
+                const email = emailInput.value.trim();
+                const password = passwordInput.value;
+                const portalType = document.querySelector('input[name="portal-type"]:checked').value;
+
+                if (!email || !password) {
+                    alert('Please fill in all fields.');
+                    return;
+                }
+
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+
+                try {
+                    const result = await Auth.login(email, password);
+                    if (result.success) {
+                        const user = Auth.getUser();
+
+                        // Role check if Admin Portal selected
+                        if (portalType === 'Admin Portal' && user.role !== 'admin') {
+                            alert('Access denied. This portal is for administrators only.');
+                            await Auth.logout();
+                            return;
+                        }
+
+                        // Redirect based on status/role
+                        if (user.status === 'pending') {
+                            alert('Your account is pending approval. You can view updates but cannot post yet.');
+                        }
+
+                        window.location.href = user.role === 'admin' ? 'admin/dashboard.html' : 'index.html';
+                    } else {
+                        alert('Login failed: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('An unexpected error occurred. Please try again.');
+                } finally {
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Sign In';
+                }
+            };
+        });
+    </script>
+</body>
+
+</html>

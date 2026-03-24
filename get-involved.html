@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="icon" type="image/x-icon" href="assets/images/hero/favicon.ico" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152210",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <title>Oasis of Hope - Get Involved</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+    <div
+        class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark overflow-x-hidden">
+        <header
+            class="sticky top-0 z-50 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 transition-all duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo -->
+                    <a href="index.html" class="flex items-center gap-2 group decoration-none">
+                        <img src="assets/images/hero/logo.png" alt="Oasis of Hope Logo"
+                            class="w-8 h-8 rounded-lg group-hover:scale-110 transition-transform" />
+                    </a>
+
+                    <!-- Desktop Nav -->
+                    <nav class="hidden md:flex space-x-8 text-sm font-medium">
+                        <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                            href="index.html">Home</a>
+                        <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                            href="programs.html">Programs</a>
+                        <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                            href="team.html">About</a>
+                        <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                            href="updates.html">Updates</a>
+                        <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                            href="contact.html">Contact</a>
+                    </nav>
+
+                    <!-- Action Buttons -->
+                    <div id="auth-nav" class="flex items-center gap-4">
+                        <a class="hidden sm:block text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                            href="login.html">Login</a>
+                        <a class="bg-primary text-slate-900 px-5 py-2 rounded-full font-bold text-sm hover:opacity-90 hover:shadow-lg hover:shadow-primary/20 transition-all"
+                            href="signup.html">
+                            Sign Up
+                        </a>
+                        <button
+                            class="md:hidden text-slate-600 dark:text-slate-400 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined">menu</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-grow">
+            <!-- Hero Section -->
+            <section class="px-4 py-8 max-w-7xl mx-auto">
+                <h2 class="text-3xl font-bold leading-tight mb-2">Get Involved</h2>
+                <p class="text-slate-600 dark:text-slate-400 mb-6 max-w-2xl">Join our mission to transform lives in Northern Kenya. Whether through volunteering, partnership, or sponsorship, your contribution makes a lasting impact.</p>
+                
+                <!-- Filter Categories (Navigation Tabs) -->
+                <div class="flex gap-3 pb-4 overflow-x-auto no-scrollbar" id="involvement-filters">
+                    <button data-section="volunteer"
+                        class="involvement-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary px-6 text-background-dark font-semibold text-sm transition-all border border-primary">
+                        Volunteer
+                    </button>
+                    <button data-section="sponsor"
+                        class="involvement-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary/10 hover:bg-primary/20 px-6 text-slate-900 dark:text-slate-100 text-sm font-medium transition-all border border-primary/20">
+                        Sponsor Projects
+                    </button>
+                    <button data-section="partner"
+                        class="involvement-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary/10 hover:bg-primary/20 px-6 text-slate-900 dark:text-slate-100 text-sm font-medium transition-all border border-primary/20">
+                        Partner
+                    </button>
+                    <button data-section="donate"
+                        class="involvement-btn flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary/10 hover:bg-primary/20 px-6 text-slate-900 dark:text-slate-100 text-sm font-medium transition-all border border-primary/20">
+                        Donate
+                    </button>
+                </div>
+            </section>
+
+            <!-- Content Section -->
+            <section class="px-4 pb-20 max-w-7xl mx-auto">
+                <div id="involvement-content">
+            <!-- Volunteer Section -->
+            <section class="scroll-mt-32" id="volunteer">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-primary">volunteer_activism</span>
+                    <h2 class="text-xl font-bold">Volunteer Inquiry</h2>
+                </div>
+                <div class="bg-white dark:bg-background-dark/30 p-6 rounded-xl border border-primary/10 shadow-sm">
+                    <p class="text-slate-600 dark:text-slate-400 mb-6 text-sm">Join our network of over 500 volunteers
+                        making a difference across East Africa.</p>
+                    <form id="volunteerForm" class="flex flex-col gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-semibold text-slate-500 ml-1">Full Name</label>
+                                <input id="v-name"
+                                    class="bg-background-light dark:bg-background-dark border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary"
+                                    placeholder="John Doe" type="text" required />
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <label class="text-xs font-semibold text-slate-500 ml-1">Email Address</label>
+                                <input id="v-email"
+                                    class="bg-background-light dark:bg-background-dark border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary"
+                                    placeholder="john@example.com" type="email" required />
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-500 ml-1">Area of Interest</label>
+                            <select id="v-interest"
+                                class="bg-background-light dark:bg-background-dark border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary">
+                                <option>Education Support</option>
+                                <option>Healthcare Assistance</option>
+                                <option>WASH Programs</option>
+                                <option>Administrative Support</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-xs font-semibold text-slate-500 ml-1">Why do you want to join us?</label>
+                            <textarea id="v-motivation"
+                                class="bg-background-light dark:bg-background-dark border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary"
+                                placeholder="Tell us a bit about your motivation..." rows="3"></textarea>
+                        </div>
+                        <button type="submit"
+                            class="bg-primary text-background-dark font-bold py-3 px-6 rounded-lg transition-transform active:scale-95 shadow-lg shadow-primary/20">Submit
+                            Application</button>
+                    </form>
+                </div>
+            </section>
+            <!-- Sponsor a Project Cards -->
+            <section class="scroll-mt-32" id="sponsor">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-primary">favorite</span>
+                    <h2 class="text-xl font-bold">Sponsor a Project</h2>
+                </div>
+                <div class="grid grid-cols-1 @[640px]:grid-cols-2 gap-4">
+                    <!-- Project 1 -->
+                    <div
+                        class="bg-white dark:bg-background-dark/30 rounded-xl overflow-hidden border border-primary/10 flex flex-col">
+                        <div class="h-40 bg-cover bg-center" data-alt="Clear water flowing from a new community well"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC6YrD1VzAyRyOWTvAA8Q9-vQEHkRGjAglagpZgK_VW5JZxWzNUCkCp_xsymTtPNUCFUnknuYgBQzSle7ZfKLE8Y-pEKg3ZHiK1zInYLqSsi2nycYl3l2ks50rjcp3arYaGIQ4nG2vTNPBCWPW8WhFGjuQRy05p1RNIQMzbTw6v7n1T48ELZUaXltrWlXpNDUoNFgnRNj5zdrdL4KbCgC1XEeBpBWtDZe6gJ3ogq4jD8eIP35sQD4G9FazX86TuODEgIzOajt-n_7of');">
+                        </div>
+                        <div class="p-4 flex flex-col flex-1">
+                            <h3 class="font-bold text-lg mb-1">Clean Water &amp; WASH</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Sponsor a well construction for a
+                                village of 200 people.</p>
+                            <div class="mt-auto">
+                                <div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full mb-2">
+                                    <div class="bg-primary h-full rounded-full" style="width: 65%"></div>
+                                </div>
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-xs font-bold">$3,250 <span
+                                            class="text-slate-500 font-normal">raised</span></span>
+                                    <span class="text-xs font-bold">Goal: $5,000</span>
+                                </div>
+                                <button
+                                    class="w-full border-2 border-primary text-slate-900 dark:text-slate-100 font-bold py-2 rounded-lg hover:bg-primary hover:text-background-dark transition-colors">Sponsor
+                                    Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div
+                        class="bg-white dark:bg-background-dark/30 rounded-xl overflow-hidden border border-primary/10 flex flex-col">
+                        <div class="h-40 bg-cover bg-center" data-alt="Women collaborating in a community workshop"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBagvwtL010rdiT8TnhlbPhJxz0MGltopeq37Vz0fN_j5S6-CdCEtcqBxM95a3A2XiAaOgWc1L_VQ1oVpSeW5zWSVZli_fK_MVxN-AKrpZXfYDwCXlusfz_yrpojqqYvsI9bsQHZz2Oa4HCrYFVvrshb5_opIws7KRqwPVMZfqbD_KzH7dkWx9UCl4TEoVX-8AqmyKo0F0S5bjYVwJLgjStt2b57z9Y8zqignBP8xavOwpAmvAnnpQjLepcoF4_BdjSm7N_hQMAC1aO');">
+                        </div>
+                        <div class="p-4 flex flex-col flex-1">
+                            <h3 class="font-bold text-lg mb-1">Women Empowerment Groups</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Provide micro-loans and
+                                vocational training for local artisans.</p>
+                            <div class="mt-auto">
+                                <div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full mb-2">
+                                    <div class="bg-primary h-full rounded-full" style="width: 40%"></div>
+                                </div>
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-xs font-bold">$1,200 <span
+                                            class="text-slate-500 font-normal">raised</span></span>
+                                    <span class="text-xs font-bold">Goal: $3,000</span>
+                                </div>
+                                <button
+                                    class="w-full border-2 border-primary text-slate-900 dark:text-slate-100 font-bold py-2 rounded-lg hover:bg-primary hover:text-background-dark transition-colors">Sponsor
+                                    Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Partnership Section -->
+            <section class="scroll-mt-32" id="partner">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-primary">handshake</span>
+                    <h2 class="text-xl font-bold">Corporate Partnerships</h2>
+                </div>
+                <div class="bg-primary/5 dark:bg-primary/10 p-6 rounded-xl border-2 border-dashed border-primary/30">
+                    <h3 class="font-bold mb-2">Align your brand with impact</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mb-6">We partner with organizations to create
+                        sustainable CSR programs that drive real change. Let's discuss how we can work together.</p>
+                    <form id="partnershipForm" class="flex flex-col gap-4">
+                        <input id="p-org"
+                            class="bg-white dark:bg-background-dark border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary"
+                            placeholder="Organization Name" type="text" required />
+                        <input id="p-email"
+                            class="bg-white dark:bg-background-dark border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary"
+                            placeholder="Contact Person Email" type="email" required />
+                        <textarea id="p-mission"
+                            class="bg-white dark:bg-background-dark border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary"
+                            placeholder="Tell us about your organization's mission..."></textarea>
+                        <button type="submit"
+                            class="bg-slate-900 dark:bg-primary dark:text-background-dark text-white font-bold py-3 px-6 rounded-lg">Request
+                            Partnership Package</button>
+                    </form>
+                </div>
+            </section>
+            <!-- Donate Section -->
+            <section class="scroll-mt-32" id="donate">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-primary">payments</span>
+                    <h2 class="text-xl font-bold">Support Our Mission</h2>
+                </div>
+                <div class="bg-white dark:bg-background-dark/30 p-6 rounded-xl border border-primary/10">
+                    <div class="flex gap-2 mb-6">
+                        <button data-freq="monthly"
+                            class="donation-freq-btn flex-1 py-2 px-3 border-2 border-primary bg-primary text-background-dark font-bold rounded-lg text-sm">Monthly</button>
+                        <button data-freq="onetime"
+                            class="donation-freq-btn flex-1 py-2 px-3 border-2 border-primary/30 text-slate-600 dark:text-slate-400 font-bold rounded-lg text-sm">One-time</button>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 mb-6">
+                        <button class="amount-btn py-3 border border-slate-200 dark:border-slate-700 rounded-lg font-bold hover:border-primary active" data-amount="25">$25</button>
+                        <button class="amount-btn py-3 border border-slate-200 dark:border-slate-700 rounded-lg font-bold hover:border-primary" data-amount="50">$50</button>
+                        <button class="amount-btn py-3 border border-slate-200 dark:border-slate-700 rounded-lg font-bold hover:border-primary" data-amount="100">$100</button>
+                    </div>
+                    <div class="mb-4">
+                        <input type="number" id="customAmount" class="w-full bg-background-light dark:bg-background-dark border-none rounded-lg p-3 text-sm transition-all focus:ring-2 focus:ring-primary" placeholder="Enter custom amount (USD)">
+                    </div>
+                    <div class="mb-8">
+                        <p class="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wider">Payment Method
+                        </p>
+                        <div class="flex gap-4 items-center">
+                            <div data-method="card"
+                                class="payment-method-btn flex-1 h-14 bg-background-light dark:bg-background-dark rounded-xl flex flex-col items-center justify-center border-2 border-primary shadow-lg shadow-primary/10 transition-all cursor-pointer">
+                                <span class="material-symbols-outlined">credit_card</span>
+                                <span class="text-[8px] font-bold uppercase mt-1">Visa/Card</span>
+                            </div>
+                            <div data-method="paypal"
+                                class="payment-method-btn flex-1 h-14 bg-background-light dark:bg-background-dark rounded-xl flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700 grayscale hover:grayscale-0 transition-all cursor-pointer">
+                                <span class="material-symbols-outlined">account_balance</span>
+                                <span class="text-[8px] font-bold uppercase mt-1">PayPal</span>
+                            </div>
+                            <div data-method="mpesa"
+                                class="payment-method-btn flex-1 h-14 bg-background-light dark:bg-background-dark rounded-xl flex flex-col items-center justify-center border border-slate-200 dark:border-slate-700 grayscale hover:grayscale-0 transition-all cursor-pointer">
+                                <span class="material-symbols-outlined">smartphone</span>
+                                <span class="text-[8px] font-bold uppercase mt-1">M-Pesa</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card details (Stripe) -->
+                    <div id="card-details" class="mb-6">
+                        <label class="text-xs font-semibold text-slate-500 ml-1">Credit or Debit Card</label>
+                        <div id="card-element" class="bg-background-light dark:bg-background-dark p-4 rounded-xl border border-slate-200 dark:border-slate-700 mt-1">
+                            <!-- Stripe Element will be inserted here -->
+                        </div>
+                        <div id="card-errors" role="alert" class="text-xs text-red-500 mt-2 px-1"></div>
+                    </div>
+
+                    <!-- PayPal details -->
+                    <div id="paypal-details" class="hidden mb-6">
+                        <div id="paypal-button-container"></div>
+                    </div>
+
+                    <!-- M-Pesa Input (Conditional) -->
+                    <div id="mpesa-details" class="hidden mb-6 animate-in fade-in slide-in-from-top-2">
+                        <label class="text-xs font-semibold text-slate-500 ml-1">M-Pesa Phone Number</label>
+                        <input id="mpesa-number"
+                            class="w-full bg-background-light dark:bg-background-dark border-none rounded-lg p-3 text-sm focus:ring-2 focus:ring-primary"
+                            placeholder="2547XXXXXXXX" type="tel" />
+                    </div>
+
+                    <button id="donateBtn" onclick="processDonation()"
+                        class="w-full bg-primary text-background-dark font-black py-4 rounded-xl text-lg uppercase tracking-tight shadow-xl shadow-primary/30 active:scale-95 transition-transform">Complete
+                        Donation</button>
+                    <p class="text-[10px] text-center mt-4 text-slate-500">All donations are tax-deductible. Secure
+                        256-bit SSL encrypted payment.</p>
+                </div>
+            </section>
+                </div>
+            </section>
+        </main>
+        <!-- Footer -->
+        <footer class="bg-background-dark text-slate-300 py-16 border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-4 text-left">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                    <div class="col-span-1 md:col-span-1">
+                        <div class="flex items-center gap-2 mb-6">
+                            <a href="index.html">
+                                <img src="assets/images/hero/logo.png" alt="Oasis of Hope Logo"
+                                    class="w-8 h-8 rounded-lg" />
+                            </a>
+                        </div>
+                        <p class="text-sm leading-relaxed mb-6">
+                            Dedicated to improving health outcomes and fostering economic independence in Northern Kenya
+                            since 2018.
+                        </p>
+                        <div class="flex gap-4">
+                            <a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-slate-900 transition-all font-bold"
+                                href="https://facebook.com">
+                                <span class="material-symbols-outlined text-xl">facebook</span>
+                            </a>
+                            <a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-slate-900 transition-all font-bold"
+                                href="https://twitter.com">
+                                <span class="material-symbols-outlined text-xl">share</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Quick Navigation</h4>
+                        <ul class="space-y-4 text-sm font-medium">
+                            <li><a class="hover:text-primary transition-colors" href="index.html">Home</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="login.html">Sign In</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="signup.html">Create Account</a>
+                            </li>
+                            <li><a class="hover:text-primary transition-colors" href="programs.html">Programs</a></li>
+                            <li><a class="text-primary font-bold" href="contact.html">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest text-left">Programs</h4>
+                        <ul class="space-y-4 text-sm font-medium text-left">
+                            <li><a class="hover:text-primary transition-colors" href="#">Primary Healthcare</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Clean Water Projects</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Women's Literacy</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Mobile Medical Camps</a></li>
+                            <li><a class="hover:text-primary transition-colors" href="#">Vocational Training</a></li>
+                        </ul>
+                    </div>
+                    <div class="text-left">
+                        <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest text-left">Newsletter
+                        </h4>
+                        <p class="text-sm mb-4">Stay updated on our latest impact.</p>
+                        <form class="flex flex-col gap-2">
+                            <input
+                                class="bg-white/5 border-white/10 rounded-lg px-4 py-3 text-sm focus:ring-primary focus:border-primary w-full"
+                                placeholder="Your email address" type="email" />
+                            <button
+                                class="bg-primary text-slate-900 font-bold py-3 rounded-lg hover:opacity-90 transition-all">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+                <div
+                    class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-500">
+                    <p>© 2024 Oasis of Hope Initiatives. All rights reserved.</p>
+                    <div class="flex gap-6">
+                        <a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+                        <a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Mobile Navigation Bar -->
+        <nav
+            class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex justify-around items-center py-2 px-4 shadow-[0_-4px_10px_rgba(0,0,0,0.1)] transition-transform duration-300">
+            <a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors"
+                href="index.html">
+                <span class="material-symbols-outlined">home</span>
+                <span class="text-[10px] font-bold">Home</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-primary" href="get-involved.html">
+                <span class="material-symbols-outlined">favorite</span>
+                <span class="text-[10px] font-bold">Donate</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors"
+                href="programs.html">
+                <span class="material-symbols-outlined">explore</span>
+                <span class="text-[10px] font-bold">Programs</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors"
+                href="login.html">
+                <span class="material-symbols-outlined">person</span>
+                <span class="text-[10px] font-bold">Account</span>
+            </a>
+        </nav>
+    </div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/supabase.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const authNav = document.getElementById('auth-nav');
+
+            // Involvement Filtering/Tab Logic
+            const filterBtns = document.querySelectorAll('.involvement-btn');
+            const sections = {
+                volunteer: document.getElementById('volunteer'),
+                sponsor: document.getElementById('sponsor'),
+                partner: document.getElementById('partner'),
+                donate: document.getElementById('donate')
+            };
+
+            const showSection = (targetId) => {
+                // Update buttons
+                filterBtns.forEach(btn => {
+                    const btnId = btn.getAttribute('data-section');
+                    if (btnId === targetId) {
+                        btn.classList.remove('bg-primary/10', 'text-slate-900', 'dark:text-slate-100', 'font-medium', 'border-primary/20');
+                        btn.classList.add('bg-primary', 'text-background-dark', 'font-semibold', 'border-primary');
+                    } else {
+                        btn.classList.remove('bg-primary', 'text-background-dark', 'font-semibold', 'border-primary');
+                        btn.classList.add('bg-primary/10', 'text-slate-900', 'dark:text-slate-100', 'font-medium', 'border-primary/20');
+                    }
+                });
+
+                // Update sections with transitions
+                Object.keys(sections).forEach(key => {
+                    const el = sections[key];
+                    if (key === targetId) {
+                        el.style.display = 'block';
+                        setTimeout(() => {
+                            el.style.opacity = '1';
+                            el.style.transform = 'translateY(0)';
+                        }, 10);
+                    } else {
+                        el.style.opacity = '0';
+                        el.style.transform = 'translateY(10px)';
+                        el.style.display = 'none';
+                    }
+                });
+            };
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-section');
+                    showSection(targetId);
+                });
+            });
+
+            // Set dynamic transitions
+            Object.values(sections).forEach(el => {
+                if(el) {
+                    el.style.transition = 'all 0.3s ease-out';
+                }
+            });
+
+            // Initialize showing first section or based on hash
+            const hash = window.location.hash.replace('#', '');
+            if (hash && sections[hash]) {
+                showSection(hash);
+            } else {
+                showSection('volunteer');
+            }
+
+            // Wait for Auth to initialize
+            const checkAuth = setInterval(() => {
+                if (window.Auth) {
+                    const user = window.Auth.getUser();
+                    if (user) {
+                        authNav.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <a href="profile.html" class="flex items-center gap-2 group decoration-none cursor-pointer">
+                                    <div class="w-8 h-8 rounded-full border border-primary/20 overflow-hidden flex items-center justify-center bg-slate-100 dark:bg-slate-800">
+                                        ${user.avatar && !user.avatar.includes('logo.png') 
+                                            ? `<img src="${user.avatar}" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.outerHTML='<span class=\\'material-symbols-outlined text-slate-400 text-lg\\'>person</span>';">` 
+                                            : `<span class="material-symbols-outlined text-slate-400 text-lg">person</span>`}
+                                    </div>
+                                    <div class="hidden sm:flex flex-col text-left">
+                                        <span class="text-[10px] font-black uppercase text-primary leading-none">${user.role}</span>
+                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">${user.username}</span>
+                                    </div>
+                                </a>
+                                <button onclick="Auth.logout()" class="p-2 text-slate-400 hover:text-red-500 transition-colors" title="Logout">
+                                    <span class="material-symbols-outlined text-xl">logout</span>
+                                </button>
+                            </div>
+                        `;
+                    }
+                    clearInterval(checkAuth);
+                }
+            }, 100);
+
+            // Form Submissions
+            const vForm = document.getElementById('volunteerForm');
+            if (vForm) {
+                vForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const btn = vForm.querySelector('button');
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Submitting...';
+
+                    const res = await window.RemoteDB.submitVolunteerApplication({
+                        fullName: document.getElementById('v-name').value,
+                        email: document.getElementById('v-email').value,
+                        interestArea: document.getElementById('v-interest').value,
+                        motivation: document.getElementById('v-motivation').value
+                    });
+
+                    if (res.success) {
+                        alert('Your application has been submitted successfully! Our team will contact you soon.');
+                        vForm.reset();
+                    } else {
+                        alert('Submission failed: ' + res.error);
+                    }
+                    btn.disabled = false;
+                    btn.innerHTML = 'Submit Application';
+                });
+            }
+
+            const pForm = document.getElementById('partnershipForm');
+            if (pForm) {
+                pForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const btn = pForm.querySelector('button');
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Sending...';
+
+                    const res = await window.RemoteDB.submitPartnershipRequest({
+                        organizationName: document.getElementById('p-org').value,
+                        contactEmail: document.getElementById('p-email').value,
+                        missionAlignment: document.getElementById('p-mission').value
+                    });
+
+                    if (res.success) {
+                        alert('Partnership request sent! We will reach out with the package details.');
+                        pForm.reset();
+                    } else {
+                        alert('Request failed: ' + res.error);
+                    }
+                    btn.disabled = false;
+                    btn.innerHTML = 'Request Partnership Package';
+                });
+            }
+
+            // Donation UI Logic
+            let selectedAmount = 25;
+            let selectedMethod = 'card';
+
+            document.querySelectorAll('.amount-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active', 'border-primary', 'bg-primary/5'));
+                    btn.classList.add('active', 'border-primary', 'bg-primary/5');
+                    selectedAmount = btn.getAttribute('data-amount');
+                    document.getElementById('customAmount').value = '';
+                });
+            });
+
+            document.getElementById('customAmount').addEventListener('input', (e) => {
+                if (e.target.value) {
+                    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active', 'border-primary', 'bg-primary/5'));
+                    selectedAmount = e.target.value;
+                }
+            });
+
+            document.querySelectorAll('.payment-method-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.payment-method-btn').forEach(b => {
+                        b.classList.remove('border-primary', 'shadow-lg', 'shadow-primary/10', 'grayscale-0');
+                        b.classList.add('border-slate-200', 'dark:border-slate-700', 'grayscale');
+                    });
+                    btn.classList.add('border-primary', 'shadow-lg', 'shadow-primary/10', 'grayscale-0');
+                    btn.classList.remove('border-slate-200', 'dark:border-slate-700', 'grayscale');
+                    selectedMethod = btn.getAttribute('data-method');
+
+                    // Show/Hide relevant details
+                    const mpesaBox = document.getElementById('mpesa-details');
+                    const cardBox = document.getElementById('card-details');
+                    const paypalBox = document.getElementById('paypal-details');
+                    const donateBtn = document.getElementById('donateBtn');
+
+                    mpesaBox.classList.add('hidden');
+                    cardBox.classList.add('hidden');
+                    paypalBox.classList.add('hidden');
+                    donateBtn.classList.remove('hidden');
+
+                    if (selectedMethod === 'mpesa') mpesaBox.classList.remove('hidden');
+                    if (selectedMethod === 'card') cardBox.classList.remove('hidden');
+                    if (selectedMethod === 'paypal') {
+                        paypalBox.classList.remove('hidden');
+                        donateBtn.classList.add('hidden'); // PayPal uses its own button
+                    }
+                });
+            });
+
+            // Payment SDK Initializations
+            let stripe, elements, card;
+            if (window.Stripe && window.STRIPE_PUBLIC_KEY) {
+                stripe = Stripe(window.STRIPE_PUBLIC_KEY);
+                elements = stripe.elements();
+                card = elements.create('card', {
+                    style: {
+                        base: {
+                            color: document.documentElement.classList.contains('dark') ? '#fff' : '#000',
+                            fontFamily: 'Inter, sans-serif',
+                            fontSmoothing: 'antialiased',
+                            fontSize: '16px',
+                            '::placeholder': { color: '#aab7c4' }
+                        }
+                    }
+                });
+                card.mount('#card-element');
+            }
+
+            // Dynamically load PayPal SDK
+            if (window.PAYPAL_CLIENT_ID) {
+                const script = document.createElement('script');
+                script.src = `https://www.paypal.com/sdk/js?client-id=${window.PAYPAL_CLIENT_ID}&currency=USD`;
+                script.addEventListener('load', () => initPayPal());
+                document.head.appendChild(script);
+            }
+
+            function initPayPal() {
+                paypal.Buttons({
+                    createOrder: (data, actions) => {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: { value: document.getElementById('customAmount').value || selectedAmount }
+                            }]
+                        });
+                    },
+                    onApprove: async (data, actions) => {
+                        const details = await actions.order.capture();
+                        await window.RemoteDB.recordDonation({
+                            amount: details.purchase_units[0].amount.value,
+                            paymentMethod: 'paypal',
+                            paymentStatus: 'completed'
+                        });
+                        alert(`Transaction completed by ${details.payer.name.given_name}!`);
+                    }
+                }).render('#paypal-button-container');
+            }
+
+            window.processDonation = async () => {
+                const btn = document.getElementById('donateBtn');
+                const amount = document.getElementById('customAmount').value || selectedAmount;
+                const mpesaNumber = document.getElementById('mpesa-number')?.value;
+                
+                btn.disabled = true;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-xl">sync</span> Processing...';
+
+                try {
+                    if (selectedMethod === 'mpesa') {
+                         if (!mpesaNumber || mpesaNumber.length < 10) throw new Error('Valid M-Pesa number required.');
+                        const res = await window.RemoteDB.initiateMpesaStkPush(amount, mpesaNumber);
+                        if (res.success) {
+                            alert('STK Push sent! Enter PIN on phone.');
+                            await window.RemoteDB.recordDonation({ 
+                                amount, 
+                                paymentMethod: 'mpesa', 
+                                paymentStatus: 'pending',
+                                checkoutRequestId: res.data.CheckoutRequestID,
+                                merchantRequestId: res.data.MerchantRequestID
+                            });
+                        } else throw new Error(res.error);
+                    } else if (selectedMethod === 'card') {
+                        // Stripe Logic
+                        const { paymentIntent, error } = await stripe.confirmCardPayment('pi_dummy_intent', {
+                            payment_method: { card: card }
+                        });
+                        // NOTE: In production, you'd call your Supabase Edge Function to create the PaymentIntent first.
+                        if (error) throw new Error(error.message);
+                        alert('Payment Successful!');
+                    } else if (selectedMethod === 'paypal') {
+                        alert('Please use the PayPal button above.');
+                    }
+                } catch (err) {
+                    alert('Error: ' + err.message);
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }
+            };
+
+            // Connect "Sponsor Now" buttons
+            document.querySelectorAll('[id^="sponsor"] button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                   showSection('donate');
+                   window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+        });
+    </script>
+    <style>
+        .amount-btn.active {
+            border-color: #49ec13 !important;
+            background-color: rgba(73, 236, 19, 0.05);
+            color: #49ec13;
+        }
+    </style>
+</body>
+
+</html>

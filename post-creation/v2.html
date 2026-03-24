@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152210",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Oasis of Hope - Dashboard</title>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 transition-colors duration-300">
+<div class="flex flex-col min-h-screen">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
+<div class="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto w-full">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-background-dark">eco</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">Oasis Admin</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="size-10 rounded-full bg-slate-200 dark:bg-slate-800 bg-cover bg-center" data-alt="User profile avatar circle" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDPEPRZDUYzkaEdqLExj6FJsAT6-Ij_W8M-8xhNVuFbPLZGvSfR-uHGChz9B9NmsB1VBScCYi0gwlg9LzIeQSWMnEtH_AJw3AUYqXYEmPx8KvrgZoOYAugxzGtc8HPtyEOvJGBxcifH8tzr7Gn-8OHYgc65Lg24EE9BudAQBGMqvvVY61UU3aEmBL88fdr8JQd46b44-p_90Mqu-l0eN5r77bJurtkq7vD4mTk9uxOGPCnFczObhYUrnyDTtg3nDhUn6-tIE7kfsS4t')"></div>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-7xl mx-auto p-4 md:p-6 space-y-8">
+<!-- User Dashboard View: Access Restricted Section -->
+<section>
+<div class="@container">
+<div class="flex flex-col lg:flex-row items-stretch overflow-hidden rounded-xl border border-primary/20 bg-white dark:bg-slate-900 shadow-sm">
+<div class="lg:w-1/3 min-h-[200px] bg-primary/10 flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary to-transparent"></div>
+<span class="material-symbols-outlined text-primary text-7xl relative z-10">lock_clock</span>
+</div>
+<div class="flex flex-1 flex-col justify-center p-6 lg:p-8 gap-4">
+<div>
+<h2 class="text-2xl font-bold mb-2">Access Restricted</h2>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                                    Welcome to Oasis of Hope! Your account is currently in the <strong>Pending Approval</strong> stage. To maintain our community's integrity, every new member is reviewed by our moderation team.
+                                </p>
+</div>
+<div class="bg-primary/5 border-l-4 border-primary p-4 rounded-r-lg">
+<p class="text-sm font-medium text-slate-700 dark:text-slate-300">
+<span class="font-bold">Estimated Time:</span> 24-48 hours. We'll notify you via email once your profile is live.
+                                </p>
+</div>
+<div class="flex gap-3">
+<button class="bg-primary hover:bg-primary/90 text-background-dark font-bold px-6 py-2.5 rounded-lg transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">support_agent</span>
+                                    Contact Support
+                                </button>
+<button class="border border-primary/30 hover:bg-primary/5 px-6 py-2.5 rounded-lg transition-all">
+                                    View FAQ
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Admin Overview Widgets -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-primary/10 shadow-sm flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="text-slate-500 text-sm font-medium uppercase tracking-wider">Pending Approvals</span>
+<span class="material-symbols-outlined text-primary">person_search</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-black">14</span>
+<span class="text-emerald-500 text-sm font-bold flex items-center">+5% <span class="material-symbols-outlined text-xs">trending_up</span></span>
+</div>
+<p class="text-xs text-slate-400">Users waiting for verification</p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-primary/10 shadow-sm flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="text-slate-500 text-sm font-medium uppercase tracking-wider">Flagged Content</span>
+<span class="material-symbols-outlined text-red-500">report</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-black">3</span>
+<span class="text-red-500 text-sm font-bold flex items-center">-2% <span class="material-symbols-outlined text-xs">trending_down</span></span>
+</div>
+<p class="text-xs text-slate-400">Posts requiring immediate review</p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-primary/10 shadow-sm flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="text-slate-500 text-sm font-medium uppercase tracking-wider">Active Oasis Members</span>
+<span class="material-symbols-outlined text-primary">group</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-black">1,248</span>
+<span class="text-emerald-500 text-sm font-bold flex items-center">+12% <span class="material-symbols-outlined text-xs">trending_up</span></span>
+</div>
+<p class="text-xs text-slate-400">Global community members</p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-primary/10 shadow-sm flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="text-slate-500 text-sm font-medium uppercase tracking-wider">Impact Score</span>
+<span class="material-symbols-outlined text-primary">volunteer_activism</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-black">8.9</span>
+<span class="text-slate-500 text-sm font-bold">/10</span>
+</div>
+<p class="text-xs text-slate-400">Community health &amp; engagement</p>
+</div>
+</section>
+<!-- User Moderation List -->
+<section class="bg-white dark:bg-slate-900 rounded-xl border border-primary/10 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-primary/10 flex justify-between items-center">
+<h3 class="font-bold text-lg">User Moderation Queue</h3>
+<button class="text-primary text-sm font-bold flex items-center gap-1">View All <span class="material-symbols-outlined text-sm">chevron_right</span></button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-primary/5 text-slate-500 text-xs uppercase tracking-widest font-bold">
+<tr>
+<th class="px-6 py-3">User</th>
+<th class="px-6 py-3">Applied Date</th>
+<th class="px-6 py-3">Region</th>
+<th class="px-6 py-3">Status</th>
+<th class="px-6 py-3 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-primary/5">
+<tr class="hover:bg-primary/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200" data-alt="Applicant 1 profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA_peRYHmEHHGRxWy06qaK0gV5Dnyqqr-0POWNvbBQ7zsgoCqNgHT5bLoF26293O4EA3QriCNg6VeXZQM5FR-t_PKHTPIrbTgQHJ9fKWzwF7-RApsNQ1J6EsEXsz_7x9p7KX3B410gMMYa7-Xmo3-cH17xZLOTlniDVhG3B0YTOmYmycSTDdTPYDDBIa9hB-62X1QIwqKb7VRV_JvvR8YfFG_idl0oJzq3J4tvjSHeK5ID6rxvY_M-21kTnLUikMxcaIxOH6zwyd5xh')"></div>
+<div>
+<p class="font-bold text-sm">Elena Rodriguez</p>
+<p class="text-xs text-slate-500">elena.r@example.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">Oct 24, 2023</td>
+<td class="px-6 py-4 text-sm">Latin America</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs font-bold rounded">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="size-8 rounded-lg bg-primary flex items-center justify-center text-background-dark"><span class="material-symbols-outlined text-sm">check</span></button>
+<button class="size-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center"><span class="material-symbols-outlined text-sm">close</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200" data-alt="Applicant 2 profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuABweexvzp8AzLyWE030XFbvU5aURAVQ1lNbad-97Q2WYW5a1ilCMZgPeKldH97Ar-q0zXBmgzWno2I1SXoKFOSAsvtfZiQSdae5SOQk9GuF7TLp7Z-am0jx6n4LHhn7xGXKtjMTze3VDkfSItkl0L1D7d0ycKqY3hh5C1iCKBrVbJKwqk0BEXeFsnqh_EGNyOlxlu9KgHEIBI8YNjOKGg0VHaoDjWUmGvZrDBrIjwcxqmiD7BXwtfbil23hAvh6XWhQK7kg_O9dkWI')"></div>
+<div>
+<p class="font-bold text-sm">Kofi Mensah</p>
+<p class="text-xs text-slate-500">k.mensah@example.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">Oct 23, 2023</td>
+<td class="px-6 py-4 text-sm">West Africa</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs font-bold rounded">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="size-8 rounded-lg bg-primary flex items-center justify-center text-background-dark"><span class="material-symbols-outlined text-sm">check</span></button>
+<button class="size-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center"><span class="material-symbols-outlined text-sm">close</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Create Post Editor -->
+<section class="bg-white dark:bg-slate-900 rounded-xl border border-primary/10 shadow-sm overflow-hidden mb-12">
+<div class="px-6 py-4 border-b border-primary/10">
+<h3 class="font-bold text-lg">Create New Post</h3>
+</div>
+<div class="p-6 space-y-4">
+<input class="w-full bg-transparent border-none text-2xl font-bold focus:ring-0 px-0 placeholder:text-slate-300 dark:placeholder:text-slate-700" placeholder="Entry Title..." type="text"/>
+<!-- Editor Toolbar -->
+<div class="flex flex-wrap items-center gap-1 p-2 bg-slate-50 dark:bg-slate-800 rounded-lg border border-primary/5">
+<button class="p-2 hover:bg-primary/20 rounded transition-colors"><span class="material-symbols-outlined text-xl">format_bold</span></button>
+<button class="p-2 hover:bg-primary/20 rounded transition-colors"><span class="material-symbols-outlined text-xl">format_italic</span></button>
+<button class="p-2 hover:bg-primary/20 rounded transition-colors"><span class="material-symbols-outlined text-xl">format_list_bulleted</span></button>
+<button class="p-2 hover:bg-primary/20 rounded transition-colors"><span class="material-symbols-outlined text-xl">format_quote</span></button>
+<div class="w-px h-6 bg-slate-300 dark:bg-slate-700 mx-2"></div>
+<button class="p-2 hover:bg-primary/20 rounded transition-colors"><span class="material-symbols-outlined text-xl">link</span></button>
+<button class="p-2 hover:bg-primary/20 rounded transition-colors"><span class="material-symbols-outlined text-xl">image</span></button>
+<button class="p-2 hover:bg-primary/20 rounded transition-colors"><span class="material-symbols-outlined text-xl">code</span></button>
+</div>
+<!-- Editor Content Area -->
+<div class="min-h-[200px] py-4">
+<p class="text-slate-400">Share your latest project update or inspirational story here...</p>
+<!-- Drag and Drop Media Placeholder -->
+<div class="mt-8 border-2 border-dashed border-primary/20 rounded-xl p-10 flex flex-col items-center justify-center gap-4 bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer">
+<div class="size-16 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary text-3xl">add_photo_alternate</span>
+</div>
+<div class="text-center">
+<p class="font-bold">Drag and drop media here</p>
+<p class="text-sm text-slate-500">Support for JPG, PNG, MP4 up to 50MB</p>
+</div>
+<button class="bg-background-dark dark:bg-primary text-white dark:text-background-dark px-4 py-2 rounded-lg text-sm font-bold">Browse Files</button>
+</div>
+</div>
+<div class="flex justify-end gap-3 pt-4 border-t border-primary/10">
+<button class="px-6 py-2 text-slate-500 font-bold hover:text-slate-700 transition-colors">Save Draft</button>
+<button class="bg-primary px-8 py-2 rounded-lg text-background-dark font-bold hover:shadow-lg transition-all">Publish Post</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation (Mobile/Standard) -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-background-dark border-t border-primary/10 z-50">
+<div class="flex justify-around items-end px-4 py-2 max-w-7xl mx-auto">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">home</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Dash</span>
+</a>
+<a class="flex flex-col items-center gap-1 -mt-6" href="#">
+<div class="size-12 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30 border-4 border-white dark:border-background-dark">
+<span class="material-symbols-outlined text-background-dark font-bold">add</span>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-primary">Create</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">forum</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Social</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Profile</span>
+</a>
+</div>
+</nav>
+</div>
+</body></html>

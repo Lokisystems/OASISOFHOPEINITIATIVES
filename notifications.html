@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="icon" type="image/x-icon" href="assets/images/hero/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152210",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <title>Notifications - Oasis of Hope</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+    <!-- Header Section -->
+    <header
+        class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
+        <div class="flex items-center p-4 justify-between max-w-2xl mx-auto">
+            <a href="index.html"
+                class="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </a>
+            <h1 class="text-lg font-bold leading-tight tracking-tight flex-1 text-center">Notifications</h1>
+            <div class="flex w-10 items-center justify-end">
+                <button onclick="NotificationsApp.markAllRead()"
+                    class="flex size-10 items-center justify-center rounded-full hover:bg-primary/10 text-primary transition-colors"
+                    title="Mark all as read">
+                    <span class="material-symbols-outlined">done_all</span>
+                </button>
+            </div>
+        </div>
+        <!-- Tab Navigation -->
+        <div class="max-w-2xl mx-auto px-4">
+            <div class="flex border-b border-primary/10 gap-8">
+                <a class="flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-4 px-2"
+                    href="#">
+                    <p class="text-sm font-bold leading-normal">Users</p>
+                </a>
+                <a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 px-2 hover:text-primary transition-colors"
+                    href="#">
+                    <p class="text-sm font-bold leading-normal">Admins</p>
+                </a>
+            </div>
+        </div>
+    </header>
+    <main class="max-w-2xl mx-auto pb-24">
+        <!-- Recent Section -->
+        <div class="px-4 py-6">
+            <h3 class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider mb-4">Recent Alerts
+            </h3>
+            <div class="space-y-1">
+                <!-- User Notification 1 -->
+                <div
+                    class="flex items-start gap-4 p-4 rounded-xl bg-white dark:bg-primary/5 border border-primary/5 hover:border-primary/20 transition-all cursor-pointer shadow-sm">
+                    <div
+                        class="flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 shrink-0 size-12">
+                        <span class="material-symbols-outlined">check_circle</span>
+                    </div>
+                    <div class="flex flex-col flex-1 min-w-0">
+                        <p class="text-sm font-medium leading-snug text-slate-900 dark:text-slate-100">
+                            Your post <span class="text-primary font-semibold">'Climate Action'</span> has been approved
+                            and is now live!
+                        </p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Community updates</span>
+                            <span class="text-[10px] text-slate-300 dark:text-slate-600">•</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">2m ago</span>
+                        </div>
+                    </div>
+                    <div class="size-2 rounded-full bg-primary mt-2"></div>
+                </div>
+                <!-- User Notification 2 -->
+                <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-primary/5 transition-all cursor-pointer">
+                    <div
+                        class="flex items-center justify-center rounded-full bg-primary/10 text-primary shrink-0 size-12">
+                        <span class="material-symbols-outlined">celebration</span>
+                    </div>
+                    <div class="flex flex-col flex-1 min-w-0">
+                        <p class="text-sm font-medium leading-snug text-slate-900 dark:text-slate-100">
+                            Welcome to Oasis of Hope! Your account is active.
+                        </p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">System</span>
+                            <span class="text-[10px] text-slate-300 dark:text-slate-600">•</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">1h ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Admin Section -->
+        <div class="px-4 py-2">
+            <h3 class="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider mb-4">Admin Console
+            </h3>
+            <div class="space-y-1">
+                <!-- Admin Notification 1 -->
+                <div
+                    class="flex items-start gap-4 p-4 rounded-xl bg-white dark:bg-primary/5 border border-primary/5 hover:border-primary/20 transition-all cursor-pointer shadow-sm">
+                    <div
+                        class="flex items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 shrink-0 size-12">
+                        <span class="material-symbols-outlined">pending_actions</span>
+                    </div>
+                    <div class="flex flex-col flex-1 min-w-0">
+                        <p class="text-sm font-medium leading-snug text-slate-900 dark:text-slate-100">
+                            New post pending approval from <span class="font-semibold text-primary">Sarah Jenkins</span>
+                        </p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Moderation</span>
+                            <span class="text-[10px] text-slate-300 dark:text-slate-600">•</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">15m ago</span>
+                        </div>
+                    </div>
+                    <div class="size-2 rounded-full bg-primary mt-2"></div>
+                </div>
+                <!-- Admin Notification 2 -->
+                <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-primary/5 transition-all cursor-pointer">
+                    <div
+                        class="flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shrink-0 size-12">
+                        <span class="material-symbols-outlined">volunteer_activism</span>
+                    </div>
+                    <div class="flex flex-col flex-1 min-w-0">
+                        <p class="text-sm font-medium leading-snug text-slate-900 dark:text-slate-100">
+                            3 new volunteer inquiries received
+                        </p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Inquiries</span>
+                            <span class="text-[10px] text-slate-300 dark:text-slate-600">•</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">4h ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/supabase.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script>
+        const NotificationsApp = {
+            async init() {
+                // Wait for Auth
+                const authReady = setInterval(async () => {
+                    if (window.Auth && window.Auth.getUser()) {
+                        this.loadNotifications();
+                        clearInterval(authReady);
+                    }
+                }, 100);
+            },
+
+            async loadNotifications() {
+                const container = document.querySelector('main .space-y-1');
+                const adminSection = document.querySelector('main > div:nth-child(2)');
+
+                // Hide static admin section for now as we don't have separate admin notifications table yet
+                if (adminSection) adminSection.style.display = 'none';
+
+                container.innerHTML = `
+                    <div class="flex justify-center py-10">
+                        <div class="size-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                    </div>
+                `;
+
+                const notifications = await window.RemoteDB.getNotifications();
+
+                if (!notifications || notifications.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-10 text-slate-500">
+                            <span class="material-symbols-outlined text-4xl opacity-20 mb-2">notifications_off</span>
+                            <p class="text-sm">You're all caught up!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = notifications.map(n => this.renderNotification(n)).join('');
+            },
+
+            renderNotification(n) {
+                const timeAgo = this.formatTime(n.created_at);
+                const isRead = n.read;
+
+                return `
+                    <div onclick="NotificationsApp.markRead(${n.id}, this)" class="flex items-start gap-4 p-4 rounded-xl transition-all cursor-pointer ${isRead ? 'hover:bg-primary/5' : 'bg-white dark:bg-primary/5 border border-primary/5 shadow-sm'}">
+                        <div class="flex items-center justify-center rounded-full ${n.message.includes('approved') ? 'bg-green-100 dark:bg-green-900/30 text-green-600' : 'bg-primary/10 text-primary'} shrink-0 size-12">
+                            <span class="material-symbols-outlined">${n.message.includes('approved') ? 'check_circle' : 'notifications'}</span>
+                        </div>
+                        <div class="flex flex-col flex-1 min-w-0">
+                            <p class="text-sm font-medium leading-snug text-slate-900 dark:text-slate-100">${n.message}</p>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-xs text-slate-500 dark:text-slate-400">System</span>
+                                <span class="text-[10px] text-slate-300 dark:text-slate-600">•</span>
+                                <span class="text-xs text-slate-500 dark:text-slate-400">${timeAgo}</span>
+                            </div>
+                        </div>
+                        ${!isRead ? '<div class="size-2 rounded-full bg-primary mt-2"></div>' : ''}
+                    </div>
+                `;
+            },
+
+            async markRead(id, el) {
+                const success = await window.RemoteDB.markNotificationRead(id);
+                if (success) {
+                    el.classList.remove('bg-white', 'dark:bg-primary/5', 'border', 'shadow-sm');
+                    const dot = el.querySelector('.bg-primary');
+                    if (dot) dot.remove();
+                }
+            },
+
+            async markAllRead() {
+                const unread = await window.RemoteDB.getNotifications();
+                for (const n of unread) {
+                    if (!n.read) await window.RemoteDB.markNotificationRead(n.id);
+                }
+                this.loadNotifications();
+            },
+
+            formatTime(dateString) {
+                const now = new Date();
+                const past = new Date(dateString);
+                const diffMs = now - past;
+                const diffMins = Math.floor(diffMs / 60000);
+                const diffHours = Math.floor(diffMins / 60);
+                const diffDays = Math.floor(diffHours / 24);
+
+                if (diffMins < 1) return 'just now';
+                if (diffMins < 60) return `${diffMins}m ago`;
+                if (diffHours < 24) return `${diffHours}h ago`;
+                return `${diffDays}d ago`;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => NotificationsApp.init());
+    </script>
+</body>
+
+</html>

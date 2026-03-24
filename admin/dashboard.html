@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Oasis of Hope - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="icon" type="image/x-icon" href="../assets/images/hero/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152210",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar for Desktop -->
+        <aside
+            class="hidden md:flex w-64 flex-col bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-4 sticky top-0 h-screen">
+            <div class="flex items-center gap-3 mb-8 px-2">
+                <img src="../assets/images/hero/logo.png" alt="Oasis Admin Logo" class="w-8 h-8 rounded-lg" />
+                <h1 class="font-bold text-lg tracking-tight">Oasis Admin</h1>
+            </div>
+            <nav class="flex-1 space-y-1">
+                <a class="flex items-center gap-3 px-3 py-2 bg-primary/10 text-primary rounded-lg font-medium" href="dashboard.html">
+                    <span class="material-symbols-outlined">dashboard</span>Dashboard
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="moderation.html">
+                    <span class="material-symbols-outlined">manage_accounts</span>User Management
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="content-control.html">
+                    <span class="material-symbols-outlined">gavel</span>Content Moderation
+                </a>
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+                    <span class="material-symbols-outlined">analytics</span>Impact Reporting
+                </a>
+            </nav>
+            <div class="pt-4 border-t border-slate-200 dark:border-slate-800">
+                <a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                    href="javascript:void(0)" onclick="Auth.logout()">
+                    <span class="material-symbols-outlined">logout</span>
+                    Logout
+                </a>
+                <div class="mt-4 flex items-center gap-3 px-3">
+                    <div class="size-8 rounded-full flex items-center justify-center bg-slate-200 dark:bg-slate-700 overflow-hidden cursor-pointer hover:ring-2 hover:ring-primary transition-all"
+                        onclick="AdminApp.toggleProfileModal()">
+                        <img id="admin-avatar" alt="Admin user avatar"
+                            src="" class="hidden w-full h-full object-cover" />
+                        <span id="admin-avatar-placeholder" class="material-symbols-outlined text-slate-400 text-sm">person</span>
+                    </div>
+                    <div class="text-sm">
+                        <p class="font-semibold leading-none" id="admin-name">Administrator</p>
+                        <p class="text-slate-500 text-xs" id="admin-role">System Admin</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 pb-20 md:pb-0">
+            <!-- Header Mobile/Top -->
+            <header
+                class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-4 flex items-center justify-between sticky top-0 z-10 md:static">
+                <div class="flex items-center gap-4">
+                    <button class="md:hidden text-slate-600 dark:text-slate-400">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <h2 class="text-xl font-bold">Dashboard Overview</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button onclick="AdminApp.openUpdateModal()"
+                        class="hidden sm:flex items-center gap-2 bg-primary text-background-dark font-bold px-4 py-2 rounded-lg text-sm hover:shadow-lg hover:shadow-primary/20 transition-all">
+                        <span class="material-symbols-outlined text-sm">add</span>
+                        New Update
+                    </button>
+                    <button
+                        class="hidden sm:flex items-center gap-2 bg-white/5 border border-white/10 text-slate-500 font-bold px-4 py-2 rounded-lg text-sm opacity-50 cursor-not-allowed">
+                        <span class="material-symbols-outlined text-sm">assessment</span>
+                        Reports
+                    </button>
+                </div>
+            </header>
+            <div class="p-4 md:p-8 max-w-7xl mx-auto space-y-8">
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-2">
+                        <div class="flex justify-between items-start">
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">
+                                Patients Treated</p><span
+                                class="material-symbols-outlined text-primary">medical_services</span>
+                        </div>
+                        <p class="text-3xl font-bold tracking-tight">0</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-2">
+                        <div class="flex justify-between items-start">
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">
+                                Women Trained</p><span class="material-symbols-outlined text-primary">psychology</span>
+                        </div>
+                        <p class="text-3xl font-bold tracking-tight">0</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-2">
+                        <div class="flex justify-between items-start">
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">
+                                Households w/ Water</p><span
+                                class="material-symbols-outlined text-primary">water_drop</span>
+                        </div>
+                        <p class="text-3xl font-bold tracking-tight">0</p>
+                    </div>
+                    <div
+                        class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col gap-2">
+                        <div class="flex justify-between items-start">
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">
+                                Youth Graduates</p><span class="material-symbols-outlined text-primary">school</span>
+                        </div>
+                        <p class="text-3xl font-bold tracking-tight">0</p>
+                    </div>
+                </div>
+                <!-- Verification & Stats Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Verification Queue (Main Section) -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="text-2xl font-bold tracking-tight">Verification Center</h3>
+                                <p class="text-slate-500 text-sm">Review and approve new community members.</p>
+                            </div>
+                            <span id="pending-count-badge"
+                                class="bg-yellow-500/10 text-yellow-500 px-3 py-1 rounded-full text-xs font-bold border border-yellow-500/20">0
+                                Pending</span>
+                        </div>
+
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xl shadow-black/5">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead
+                                        class="bg-slate-50/50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest border-b border-slate-100 dark:border-slate-800">
+                                        <tr>
+                                            <th class="px-6 py-5">Identity</th>
+                                            <th class="px-6 py-5 text-center">Security Level</th>
+                                            <th class="px-6 py-5 text-center">Registration</th>
+                                            <th class="px-6 py-5 text-right">Verification</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pendingUsersTable"
+                                        class="divide-y divide-slate-100 dark:divide-slate-800">
+                                        <tr>
+                                            <td colspan="4" class="px-6 py-20 text-center">
+                                                <div class="flex flex-col items-center gap-3">
+                                                    <span
+                                                        class="material-symbols-outlined text-4xl text-slate-300 animate-pulse">monitoring</span>
+                                                    <p class="text-slate-400 text-sm font-medium">Scanning for new
+                                                        registrations...</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Analytics / Activity -->
+                    <div class="space-y-6">
+                        <div
+                            class="bg-background-dark text-white p-6 rounded-2xl border border-primary/20 shadow-2xl relative overflow-hidden group">
+                            <div
+                                class="absolute -top-12 -right-12 size-32 bg-primary/10 blur-3xl rounded-full group-hover:bg-primary/20 transition-all duration-700">
+                            </div>
+                            <h4
+                                class="text-sm font-bold uppercase tracking-widest text-primary mb-4 flex items-center gap-2">
+                                <span class="size-2 bg-primary rounded-full"></span> System Health
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-slate-400">Moderation Load</span>
+                                    <span class="text-white font-bold">Stable</span>
+                                </div>
+                                <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                                    <div
+                                        class="bg-primary h-full w-[15%] rounded-full shadow-[0_0_8px_rgba(73,236,19,0.5)]">
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center text-xs pt-2">
+                                    <span class="text-slate-400">Response Time</span>
+                                    <span class="text-white font-bold">
+                                        < 24h</span>
+                                </div>
+                                <button onclick="AdminApp.loadPendingUsers()"
+                                    class="w-full mt-4 bg-white/5 hover:bg-white/10 border border-white/10 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-sm">refresh</span> Refresh Queue
+                                </button>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                            <h4 class="font-bold text-sm mb-4">Recent Audit Log</h4>
+                            <div id="audit-log" class="space-y-4">
+                                <div class="flex gap-3 text-xs opacity-50 italic">
+                                    <span class="material-symbols-outlined text-sm">history</span>
+                                    <span>No recent actions recorded.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Map / Regional Activity Section -->
+                <div
+                    class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h3 class="font-bold text-lg">Active Regions</h3>
+                            <p class="text-sm text-slate-500">Distribution of ongoing relief programs</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <select
+                                class="bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary">
+                                <option>This Quarter</option>
+                                <option>Last Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="aspect-video w-full bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden relative">
+                        <img alt="World map showing activity"
+                            class="w-full h-full object-cover opacity-50 dark:opacity-30" data-location="Global"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBudMp38z7I3rOJPufkwuw8n1pBF64CxRwoqR6jaZwJMtIdZusvdedE90quO-oSBb2TMaGwtXul_WrU_EQO2UgIjFDjGr7B6r5ojiohppBVxQJ7dNA-AZ8shL9OPxGnp8okqpreAKC4j93DJdTe2dn6FwN2Q2dLzGpJchtDGhp5LyxCM-oi1bCRWaV2DsLyrxSPigybGWmPU73XmliFsBjNDfETR3ERlDsE8Es4tn4HJKrYtxX0wpVM33cqhmtygD-yakGR99SOMQlo" />
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                                <div
+                                    class="flex items-center gap-2 bg-white dark:bg-slate-900 p-2 px-3 rounded-full shadow-lg border border-primary/20">
+                                    <span class="size-2 bg-primary rounded-full animate-pulse"></span>
+                                    <span class="text-xs font-bold">Nairobi (8)</span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-2 bg-white dark:bg-slate-900 p-2 px-3 rounded-full shadow-lg border border-primary/20">
+                                    <span class="size-2 bg-primary rounded-full animate-pulse"></span>
+                                    <span class="text-xs font-bold">Lagos (12)</span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-2 bg-white dark:bg-slate-900 p-2 px-3 rounded-full shadow-lg border border-primary/20">
+                                    <span class="size-2 bg-primary rounded-full animate-pulse"></span>
+                                    <span class="text-xs font-bold">Dhaka (4)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <nav
+        class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-4 pb-6 pt-3 z-50">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <a class="flex flex-col items-center gap-1.5 text-primary" href="dashboard.html">
+                <span class="material-symbols-outlined text-[22px]"
+                    style="font-variation-settings: 'FILL' 1">dashboard</span>
+                <span class="text-[10px] font-black uppercase tracking-widest">Dash</span>
+            </a>
+            <a class="flex flex-col items-center gap-1.5 text-slate-400" href="moderation.html">
+                <span class="material-symbols-outlined text-[22px]">group</span>
+                <span class="text-[10px] font-black uppercase tracking-widest">Users</span>
+            </a>
+            <a class="flex flex-col items-center gap-1.5 text-slate-400" href="moderation-queue.html">
+                <span class="material-symbols-outlined text-[22px]">person_search</span>
+                <span class="text-[10px] font-black uppercase tracking-widest">Queue</span>
+            </a>
+            <a class="flex flex-col items-center gap-1.5 text-slate-400" href="content-control.html">
+                <span class="material-symbols-outlined text-[22px]">gavel</span>
+                <span class="text-[10px] font-black uppercase tracking-widest">Content</span>
+            </a>
+        </div>
+    </nav>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/supabase.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        window.AdminApp = {
+            async init() {
+                // Wait for Auth
+                const authReady = setInterval(async () => {
+                    if (window.Auth && window.Auth.getUser()) {
+                        const user = window.Auth.getUser();
+                        if (user.role !== 'admin') {
+                            alert('Admin access required.');
+                            window.location.href = '../login.html';
+                            return;
+                        }
+
+                        document.getElementById('admin-name').textContent = user.username;
+                        document.getElementById('admin-role').textContent = user.role.toUpperCase();
+                        
+                        const adminAvatar = document.getElementById('admin-avatar');
+                        const adminAvatarPlaceholder = document.getElementById('admin-avatar-placeholder');
+                        
+                        // Check if avatar exists and isn't the fallback logo
+                        if (user.avatar && !user.avatar.includes('logo.png')) {
+                            adminAvatar.src = user.avatar;
+                            adminAvatar.classList.remove('hidden');
+                            if(adminAvatarPlaceholder) adminAvatarPlaceholder.classList.add('hidden');
+                            
+                            // Add error handler for broken links
+                            adminAvatar.onerror = () => {
+                                adminAvatar.classList.add('hidden');
+                                if(adminAvatarPlaceholder) adminAvatarPlaceholder.classList.remove('hidden');
+                            };
+                        } else {
+                            adminAvatar.classList.add('hidden');
+                            if(adminAvatarPlaceholder) adminAvatarPlaceholder.classList.remove('hidden');
+                        }
+
+                        this.loadDashboardStats();
+                        this.loadPendingUsers();
+                        this.loadAuditLogs();
+                        this.initComposer();
+                        this.setupRealtime();
+                        clearInterval(authReady);
+                    }
+                }, 100);
+            },
+
+            setupRealtime() {
+                // Listen for user changes (new registrations / status updates)
+                window.RemoteDB.subscribeToRealtime('profiles', (payload) => {
+                    console.log('[Realtime] Profile change detected:', payload);
+                    this.loadDashboardStats();
+                    this.loadPendingUsers();
+                });
+
+                // Listen for audit logs
+                window.RemoteDB.subscribeToRealtime('audit_logs', (payload) => {
+                    console.log('[Realtime] Audit log update:', payload);
+                    this.loadAuditLogs();
+                });
+            },
+
+            async loadDashboardStats() {
+                const stats = await window.RemoteDB.getAdminStats();
+                if (!stats) return;
+
+                const statContainers = document.querySelectorAll('.bg-white.dark\\:bg-slate-900.p-6.rounded-xl.border');
+                if (statContainers.length >= 4) {
+                    statContainers[0].querySelector('p.text-3xl').textContent = stats.totalUsers;
+                    statContainers[1].querySelector('p.text-3xl').textContent = stats.approvedUsers;
+                    statContainers[2].querySelector('p.text-3xl').textContent = stats.pendingUsers;
+                    statContainers[3].querySelector('p.text-3xl').textContent = stats.totalPosts;
+                }
+            },
+
+            async loadAuditLogs() {
+                const container = document.getElementById('audit-log');
+                try {
+                    const logs = await window.RemoteDB.getAuditLogs(5);
+                    if (!logs || logs.length === 0) {
+                        container.innerHTML = `
+                            <div class="flex gap-3 text-xs opacity-50 italic">
+                                <span class="material-symbols-outlined text-sm">history</span>
+                                <span>No recent actions recorded.</span>
+                            </div>`;
+                        return;
+                    }
+
+                    container.innerHTML = logs.map(log => {
+                        const icon = log.action === 'approved' ? 'verified' : 'block';
+                        const color = log.action === 'approved' ? 'text-primary' : 'text-red-400';
+                        const time = new Date(log.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                        return `
+                            <div class="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800 animate-in fade-in slide-in-from-right-4 duration-500">
+                                <span class="material-symbols-outlined text-sm ${color} mt-0.5">${icon}</span>
+                                <div class="flex-1">
+                                    <p class="text-xs font-bold leading-none mb-1">${log.action.toUpperCase()} ${log.target_user}</p>
+                                    <p class="text-[10px] text-slate-400">By ${log.profiles?.username || 'Admin'}</p>
+                                </div>
+                                <span class="text-[9px] text-slate-500 font-medium">${time}</span>
+                            </div>
+                        `;
+                    }).join('');
+                } catch (err) {
+                    console.error('Audit load error:', err);
+                }
+            },
+
+            profileAvatarPromise: null,
+            uploadedProfileUrl: null,
+
+            initComposer() {
+                this.selectedMedia = null;
+                const textarea = document.getElementById('update-text');
+                if (textarea) {
+                    textarea.addEventListener('input', () => {
+                        const len = textarea.value.length;
+                        document.getElementById('char-count').textContent = `${len} / 5000`;
+                    });
+                }
+            },
+
+            openUpdateModal() {
+                const modal = document.getElementById('updateModal');
+                modal.classList.remove('hidden');
+                document.getElementById('update-text').focus();
+            },
+
+            closeUpdateModal() {
+                document.getElementById('updateModal').classList.add('hidden');
+            },
+
+            handleUpdateMedia(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                this.selectedMedia = file;
+                const imgPreview = document.getElementById('media-preview');
+                const videoPreview = document.getElementById('video-preview');
+                const previewContainer = document.getElementById('media-preview-container');
+
+                const url = URL.createObjectURL(file);
+                if (file.type.startsWith('video')) {
+                    imgPreview.classList.add('hidden');
+                    videoPreview.classList.remove('hidden');
+                    videoPreview.src = url;
+                } else {
+                    videoPreview.classList.add('hidden');
+                    imgPreview.classList.remove('hidden');
+                    imgPreview.src = url;
+                }
+                previewContainer.classList.remove('hidden');
+            },
+
+            removeMedia() {
+                this.selectedMedia = null;
+                document.getElementById('media-preview-container').classList.add('hidden');
+                document.getElementById('media-preview').src = '';
+                const videoPreview = document.getElementById('video-preview');
+                videoPreview.src = '';
+                videoPreview.load();
+                document.getElementById('update-media-input').value = '';
+                document.getElementById('update-video-input').value = '';
+            },
+
+            async submitUpdate() {
+                const textInput = document.getElementById('update-text');
+                const text = textInput.value.trim();
+                if (!text && !this.selectedMedia) {
+                    alert('Please enter some text or select an image/video.');
+                    return;
+                }
+
+                const btn = document.getElementById('submit-update-btn');
+                const originalText = btn.textContent;
+                btn.disabled = true;
+                btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-sm">sync</span> Publishing...`;
+
+                try {
+                    let mediaUrls = [];
+                    let mediaType = 'none';
+
+                    if (this.selectedMedia) {
+                        mediaUrls = await window.RemoteDB.uploadMedia([{ file: this.selectedMedia }]);
+                        mediaType = this.selectedMedia.type.startsWith('video') ? 'video' : 'image';
+                    }
+
+                    const result = await window.RemoteDB.addCommunityPost({
+                        text: text,
+                        media_url: mediaUrls[0] || null,
+                        media_type: mediaType,
+                        tag: 'Official'
+                    });
+
+                    if (result) {
+                        alert('Official update published!');
+                        this.closeUpdateModal();
+                        textInput.value = '';
+                        this.removeMedia();
+                        await window.RemoteDB.logAdminAction('published update', 'Global Feed');
+                    }
+                } catch (err) {
+                    console.error('[Dashboard] Submission error:', err);
+                    alert('Publishing failed: ' + (err.message || 'Unknown error'));
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                }
+            },
+
+            async loadPendingUsers() {
+                const tableBody = document.getElementById('pendingUsersTable');
+                const badge = document.getElementById('pending-count-badge');
+                try {
+                    const data = await window.RemoteDB.getPendingUsers();
+                    badge.textContent = `${data?.length || 0} Pending`;
+
+                    if (!data || data.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-20 text-center text-slate-400 text-sm">All clear! No pending registrations.</td></tr>';
+                        return;
+                    }
+
+                    tableBody.innerHTML = data.map(user => `
+                        <tr class="group hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-all duration-300 animate-in fade-in slide-in-from-left-4">
+                            <td class="px-6 py-5">
+                                <div class="flex items-center gap-4">
+                                    <div class="size-10 rounded-xl overflow-hidden border border-primary/20 flex items-center justify-center bg-slate-100 dark:bg-slate-800 shrink-0">
+                                        ${user.avatar_url && !user.avatar_url.includes('logo.png') 
+                                            ? `<img src="${user.avatar_url}" class="w-full h-full object-cover" onerror="this.outerHTML='<span class=\\'material-symbols-outlined text-slate-400\\'>person</span>';">` 
+                                            : `<span class="material-symbols-outlined text-slate-400">person</span>`}
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-sm">${user.username}</p>
+                                        <p class="text-[11px] text-slate-500">${user.email}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5 text-center"><span class="text-[10px] font-black uppercase text-slate-400">Member</span></td>
+                            <td class="px-6 py-5 text-center text-xs text-slate-500">${new Date(user.created_at).toLocaleDateString()}</td>
+                            <td class="px-6 py-5 text-right">
+                                <div class="flex justify-end gap-2">
+                                    <button onclick="AdminApp.updateStatus('${user.id}', 'approved', '${user.username}')" class="size-8 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg transition-all flex items-center justify-center"><span class="material-symbols-outlined text-sm">check</span></button>
+                                    <button onclick="AdminApp.updateStatus('${user.id}', 'rejected', '${user.username}')" class="size-8 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white rounded-lg transition-all flex items-center justify-center"><span class="material-symbols-outlined text-sm">close</span></button>
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('');
+                } catch (e) {
+                    tableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-20 text-center text-red-400 text-sm">Scan failed.</td></tr>';
+                }
+            },
+
+            async updateStatus(userId, status, username) {
+                if (!confirm(`${status.toUpperCase()} ${username}?`)) return;
+                try {
+                    const success = await window.RemoteDB.updateUserStatus(userId, status);
+                    if (success) {
+                        await window.RemoteDB.logAdminAction(status, username);
+                        // Realtime handles refresh
+                    } else {
+                        alert('Database rejected the update.');
+                    }
+                } catch (e) {
+                    alert('Error: ' + e.message);
+                }
+            },
+
+            toggleProfileModal() {
+                document.getElementById('profileModal').classList.toggle('hidden');
+                const user = window.Auth.getUser();
+                if (user) {
+                    document.getElementById('edit-email').value = user.email || '';
+                    document.getElementById('edit-phone').value = user.phone || '';
+                    
+                    const preview = document.getElementById('admin-profile-preview');
+                    const placeholder = document.getElementById('admin-profile-placeholder');
+                    if (user.avatar && !user.avatar.includes('logo.png')) {
+                        preview.src = user.avatar;
+                        preview.classList.remove('hidden');
+                        if(placeholder) placeholder.classList.add('hidden');
+                        preview.onerror = () => {
+                            preview.classList.add('hidden');
+                            if(placeholder) placeholder.classList.remove('hidden');
+                        };
+                    } else {
+                        preview.classList.add('hidden');
+                        if(placeholder) placeholder.classList.remove('hidden');
+                    }
+                }
+            },
+
+            handleAvatarSelect(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                const preview = document.getElementById('admin-profile-preview');
+                const placeholder = document.getElementById('admin-profile-placeholder');
+                preview.src = URL.createObjectURL(file);
+                preview.classList.remove('hidden');
+                if(placeholder) placeholder.classList.add('hidden');
+                this.profileAvatarPromise = window.RemoteDB.uploadMedia([file], { maxWidth: 300, quality: 0.7 }).then(urls => {
+                    if (urls.length > 0) this.uploadedProfileUrl = urls[0];
+                    return urls[0];
+                });
+            },
+
+            async handleProfileUpdate(e) {
+                e.preventDefault();
+                const btn = document.getElementById('save-profile-btn');
+                btn.disabled = true;
+                btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Saving...';
+
+                try {
+                    if (this.profileAvatarPromise) await this.profileAvatarPromise;
+                    const result = await window.RemoteDB.updateProfile({
+                        email: document.getElementById('edit-email').value,
+                        phone: document.getElementById('edit-phone').value,
+                        password: document.getElementById('edit-password').value || undefined,
+                        avatar_url: this.uploadedProfileUrl || undefined
+                    });
+
+                    if (result.success) {
+                        alert('Settings saved!');
+                        window.location.reload();
+                    } else { throw new Error(result.error); }
+                } catch (err) {
+                    alert('Save failed: ' + err.message);
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = 'Save Changes';
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => AdminApp.init());
+    </script>
+    <!-- Profile Management Modal -->
+    <div id="profileModal" class="fixed inset-0 z-[100] hidden overflow-y-auto">
+        <div class="flex min-h-screen items-center justify-center p-4 text-center sm:p-0">
+            <!-- Backdrop -->
+            <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+                onclick="AdminApp.toggleProfileModal()"></div>
+
+            <!-- Modal Panel -->
+            <div
+                class="relative transform overflow-hidden rounded-2xl bg-white dark:bg-slate-900 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-200">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-primary/10 rounded-lg">
+                                <span class="material-symbols-outlined text-primary">manage_accounts</span>
+                            </div>
+                            <h3 class="text-xl font-bold">Profile Security</h3>
+                        </div>
+                        <button onclick="AdminApp.toggleProfileModal()"
+                            class="text-slate-400 hover:text-slate-500 transition-colors">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
+
+                    <form id="profileUpdateForm" class="space-y-4" onsubmit="AdminApp.handleProfileUpdate(event)">
+                        <!-- Avatar Section -->
+                        <div class="flex flex-col items-center gap-3 mb-6">
+                            <div class="relative group size-20 rounded-full flex items-center justify-center ring-4 ring-primary/20 bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <img id="admin-profile-preview" src=""
+                                    class="hidden size-full object-cover">
+                                <span id="admin-profile-placeholder" class="material-symbols-outlined text-slate-400 text-3xl">person</span>
+                                <label
+                                    class="absolute inset-0 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center cursor-pointer transition-opacity">
+                                    <span class="material-symbols-outlined text-white">photo_camera</span>
+                                    <input type="file" id="admin-avatar-input" class="hidden" accept="image/*"
+                                        onchange="AdminApp.handleAvatarSelect(event)">
+                                </label>
+                            </div>
+                            <p class="text-[9px] text-slate-500 uppercase font-black tracking-widest">Update Admin Photo
+                            </p>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-black uppercase text-slate-500 tracking-widest">Email
+                                Address</label>
+                            <div class="relative">
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">mail</span>
+                                <input type="email" id="edit-email"
+                                    class="w-full pl-10 px-4 py-2.5 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary"
+                                    placeholder="name@oasis.org">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-black uppercase text-slate-500 tracking-widest">Phone
+                                Number</label>
+                            <div class="relative">
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">phone</span>
+                                <input type="tel" id="edit-phone"
+                                    class="w-full pl-10 px-4 py-2.5 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary"
+                                    placeholder="+254 700 000000">
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100 dark:border-slate-800 mt-6">
+                            <label class="text-xs font-black uppercase text-slate-500 tracking-widest">Update
+                                Password</label>
+                            <p class="text-[10px] text-slate-400 mb-3">Leave blank to keep existing password</p>
+                            <div class="relative">
+                                <span
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">lock</span>
+                                <input type="password" id="edit-password"
+                                    class="w-full pl-10 px-4 py-2.5 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary"
+                                    placeholder="••••••••">
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 pt-6">
+                            <button type="button" onclick="AdminApp.toggleProfileModal()"
+                                class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">Cancel</button>
+                            <button type="submit" id="save-profile-btn"
+                                class="flex-1 bg-primary text-background-dark px-4 py-2.5 rounded-xl text-sm font-black uppercase tracking-tighter hover:shadow-lg hover:shadow-primary/20 transition-all">Save
+                                Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Update Modal -->
+    <div id="updateModal" class="fixed inset-0 z-[100] hidden overflow-y-auto">
+        <div class="flex min-h-screen items-center justify-center p-4">
+            <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="AdminApp.closeUpdateModal()"></div>
+            <div
+                class="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-200">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold">Publish Update</h3>
+                        <button onclick="AdminApp.closeUpdateModal()" class="text-slate-400 hover:text-slate-500">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
+                    <div class="space-y-4">
+                        <textarea id="update-text" rows="5"
+                            class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary p-4 placeholder:text-slate-400"
+                            placeholder="Write an update for the community wall..."></textarea>
+
+                        <div id="media-preview-container"
+                            class="hidden relative rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900/5">
+                            <img id="media-preview" class="w-full h-48 object-cover hidden">
+                            <video id="video-preview" class="w-full h-48 object-cover hidden" controls></video>
+                            <button onclick="AdminApp.removeMedia()"
+                                class="absolute top-2 right-2 size-8 bg-black/50 text-white rounded-full flex items-center justify-center backdrop-blur-md">
+                                <span class="material-symbols-outlined text-sm">close</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-2">
+                            <div class="flex gap-1">
+                                <label
+                                    class="cursor-pointer p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-primary transition-colors flex items-center gap-2"
+                                    title="Add Image">
+                                    <span class="material-symbols-outlined">image</span>
+                                    <input type="file" id="update-media-input" class="hidden" accept="image/*"
+                                        onchange="AdminApp.handleUpdateMedia(event)">
+                                </label>
+                                <label
+                                    class="cursor-pointer p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-primary transition-colors flex items-center gap-2"
+                                    title="Add Video">
+                                    <span class="material-symbols-outlined">videocam</span>
+                                    <input type="file" id="update-video-input" class="hidden" accept="video/*"
+                                        onchange="AdminApp.handleUpdateMedia(event)">
+                                </label>
+                            </div>
+                            <span id="char-count" class="text-[10px] font-bold text-slate-400">0 / 5000</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 mt-6">
+                        <button onclick="AdminApp.closeUpdateModal()"
+                            class="flex-1 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-bold">Cancel</button>
+                        <button id="submit-update-btn" onclick="AdminApp.submitUpdate()"
+                            class="flex-1 bg-primary text-background-dark py-2.5 rounded-xl text-sm font-bold uppercase shadow-lg shadow-primary/20">Publish
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

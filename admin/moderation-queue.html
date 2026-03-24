@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Oasis of Hope - Content Moderation</title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/hero/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152210",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <!-- Header Section -->
+        <header
+            class="flex items-center bg-background-light dark:bg-background-dark p-4 border-b border-primary/10 justify-between sticky top-0 z-50">
+            <a href="dashboard.html" class="flex items-center gap-3 decoration-none">
+                <h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-tight">Admin Hub</h2>
+            </a>
+            <div class="flex items-center gap-4">
+                <button class="p-2 rounded-full hover:bg-primary/10 transition-colors" onclick="Auth.logout()">
+                    <span class="material-symbols-outlined">logout</span>
+                </button>
+                <div class="h-10 w-10 rounded-full bg-slate-100 dark:bg-slate-800 border border-primary/20 overflow-hidden flex items-center justify-center">
+                    <span class="material-symbols-outlined text-slate-400">person</span>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1">
+            <!-- Stats Summary -->
+            <div class="p-4">
+                <div class="flex flex-wrap gap-4">
+                    <div
+                        class="flex min-w-[240px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-slate-800 shadow-sm border border-primary/10">
+                        <div class="flex items-center justify-between">
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Pending Approvals</p>
+                            <span class="material-symbols-outlined text-primary">pending_actions</span>
+                        </div>
+                        <p class="text-slate-900 dark:text-slate-100 text-3xl font-bold leading-tight"
+                            id="total-pending">0</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary/20 text-primary">Live
+                                Scan Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content List (Users for this page as per requirement) -->
+            <div class="px-4 flex flex-col gap-4 pb-24" id="moderation-list">
+                <div class="p-12 text-center text-slate-400">
+                    <span class="material-symbols-outlined text-4xl animate-spin">sync</span>
+                    <p class="mt-2 text-sm font-medium">Fetching pending applications...</p>
+                </div>
+            </div>
+        </main>
+        <!-- Bottom Navigation Bar -->
+        <nav
+            class="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-t border-primary/10 px-4 pb-4 pt-2 shadow-lg z-50">
+            <div class="max-w-md mx-auto flex justify-between items-center">
+                <a class="flex flex-col items-center gap-1.5 text-slate-400" href="dashboard.html">
+                    <span class="material-symbols-outlined text-[22px]">dashboard</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest">Dash</span>
+                </a>
+                <a class="flex flex-col items-center gap-1.5 text-slate-400" href="moderation.html">
+                    <span class="material-symbols-outlined text-[22px]">group</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest">Users</span>
+                </a>
+                <a class="flex flex-col items-center gap-1.5 text-primary" href="moderation-queue.html">
+                    <span class="material-symbols-outlined text-[22px]"
+                        style="font-variation-settings: 'FILL' 1">person_search</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest">Queue</span>
+                </a>
+                <a class="flex flex-col items-center gap-1.5 text-slate-400" href="content-control.html">
+                    <span class="material-symbols-outlined text-[22px]">gavel</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest">Content</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/supabase.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        const PendingModApp = {
+            async init() {
+                const authReady = setInterval(() => {
+                    if (window.Auth && window.Auth.getUser()) {
+                        this.loadContent();
+                        this.setupRealtime();
+                        clearInterval(authReady);
+                    }
+                }, 100);
+            },
+
+            setupRealtime() {
+                if (window.RemoteDB.subscribeToRealtime) {
+                    window.RemoteDB.subscribeToRealtime('profiles', (payload) => {
+                        console.log('[Realtime] Profile change detected:', payload);
+                        this.loadContent();
+                    });
+                }
+            },
+
+            async loadContent() {
+                const list = document.getElementById('moderation-list');
+                const badge = document.getElementById('total-pending');
+
+                try {
+                    const users = await window.RemoteDB.getUsersByStatus('pending');
+                    badge.textContent = users.length;
+
+                    if (!users || users.length === 0) {
+                        list.innerHTML = `
+                            <div class="bg-white dark:bg-slate-800 rounded-xl p-12 text-center border border-dashed border-slate-200 dark:border-slate-700">
+                                <p class="text-slate-500">No pending approvals. Great job!</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    list.innerHTML = users.map(user => `
+                        <div class="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-sm border border-primary/10 flex items-center justify-between animate-in fade-in slide-in-from-right-4">
+                            <div class="flex items-center gap-4">
+                                <div class="size-12 rounded-full overflow-hidden flex items-center justify-center bg-slate-100 dark:bg-slate-800 shrink-0">
+                                    ${user.avatar_url && !user.avatar_url.includes('logo.png') 
+                                        ? `<img src="${user.avatar_url}" class="w-full h-full object-cover" onerror="this.outerHTML='<span class=\\'material-symbols-outlined text-slate-400 text-xl\\'>person</span>';">` 
+                                        : `<span class="material-symbols-outlined text-slate-400 text-xl">person</span>`}
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900 dark:text-white">${user.username}</h3>
+                                    <p class="text-xs text-slate-500">${user.email}</p>
+                                    <p class="text-[10px] text-slate-400 mt-1">Applied: ${new Date(user.created_at).toLocaleDateString()}</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="PendingModApp.updateStatus('${user.id}', 'rejected', '${user.username}')" class="px-4 py-2 rounded-lg border border-red-500 text-red-500 text-xs font-bold hover:bg-red-50 transition-colors">Reject</button>
+                                <button onclick="PendingModApp.updateStatus('${user.id}', 'approved', '${user.username}')" class="px-4 py-2 rounded-lg bg-primary text-slate-900 text-xs font-bold hover:shadow-lg transition-all">Approve</button>
+                            </div>
+                        </div>
+                    `).join('');
+                } catch (err) {
+                    list.innerHTML = `<div class="p-12 text-center text-red-500 font-bold">Error: ${err.message}</div>`;
+                }
+            },
+
+            async updateStatus(userId, status, username) {
+                if (!confirm(`Set ${username} to ${status}?`)) return;
+                const success = await window.RemoteDB.updateUserStatus(userId, status);
+                if (success) {
+                    if (window.RemoteDB.logAdminAction) {
+                        await window.RemoteDB.logAdminAction(status, username);
+                    }
+                    this.loadContent();
+                    alert(`${username} ${status}!`);
+                } else {
+                    alert('Update failed.');
+                }
+            }
+        };
+
+        PendingModApp.init();
+    </script>
+</body>
+
+</html>

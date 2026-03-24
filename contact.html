@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="icon" type="image/x-icon" href="assets/images/hero/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152210",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <title>Contact Us - Oasis of Hope Initiatives</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+    <header
+        class="sticky top-0 z-50 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-2 group decoration-none">
+                    <img src="assets/images/hero/logo.png" alt="Oasis of Hope Logo"
+                        class="w-8 h-8 rounded-lg group-hover:scale-110 transition-transform" />
+                </a>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                        href="index.html">Home</a>
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                        href="programs.html">Programs</a>
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                        href="team.html">About</a>
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                        href="updates.html">Updates</a>
+                    <a class="text-primary font-bold border-b-2 border-primary pb-1" href="contact.html">Contact</a>
+                </nav>
+
+                <!-- Action Buttons -->
+                <div id="auth-nav" class="flex items-center gap-4">
+                    <a class="hidden sm:block text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                        href="login.html">Login</a>
+                    <a class="bg-primary text-slate-900 px-5 py-2 rounded-full font-bold text-sm hover:opacity-90 hover:shadow-lg hover:shadow-primary/20 transition-all"
+                        href="signup.html">
+                        Sign Up
+                    </a>
+                    <button
+                        class="md:hidden text-slate-600 dark:text-slate-400 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Contact Us</h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                We're here to listen and support. Reach out to us for any inquiries or to join our mission in empowering
+                communities.
+            </p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div
+                class="bg-white dark:bg-background-dark p-6 md:p-10 rounded-xl shadow-xl shadow-primary/5 border border-primary/10">
+                <form action="#" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold block">Full Name</label>
+                            <input
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all"
+                                placeholder="John Doe" type="text" />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold block">Email Address</label>
+                            <input
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all"
+                                placeholder="john@example.com" type="email" />
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold block">Category</label>
+                        <select
+                            class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all">
+                            <option>General Inquiry</option>
+                            <option>Volunteer</option>
+                            <option>Partnership</option>
+                            <option>Donations</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold block">Subject</label>
+                        <input
+                            class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all"
+                            placeholder="How can we help?" type="text" />
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold block">Message</label>
+                        <textarea
+                            class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all"
+                            placeholder="Tell us more about your interest..." rows="5"></textarea>
+                    </div>
+                    <button
+                        class="w-full bg-primary hover:bg-primary/90 text-background-dark font-bold py-3 rounded-lg transition-all flex items-center justify-center gap-2"
+                        type="submit">
+                        <span>Send Message</span>
+                        <span class="material-symbols-outlined text-[18px]">send</span>
+                    </button>
+                </form>
+            </div>
+            <div class="space-y-8">
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="flex gap-4 p-4 rounded-xl bg-primary/5 border border-primary/20">
+                        <div class="bg-primary/20 p-3 rounded-lg h-fit">
+                            <span class="material-symbols-outlined text-primary">location_on</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Our Location</h3>
+                            <p class="text-slate-600 dark:text-slate-400">Bulapesa Ward, Isiolo Town,<br />Isiolo
+                                County, Kenya</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 p-4 rounded-xl bg-primary/5 border border-primary/20">
+                        <div class="bg-primary/20 p-3 rounded-lg h-fit">
+                            <span class="material-symbols-outlined text-primary">call</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Phone Number</h3>
+                            <p class="text-slate-600 dark:text-slate-400 font-medium">+254 792 104 891</p>
+                            <p class="text-xs text-slate-500">Mon-Fri, 8am - 5pm EAT</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 p-4 rounded-xl bg-primary/5 border border-primary/20">
+                        <div class="bg-primary/20 p-3 rounded-lg h-fit">
+                            <span class="material-symbols-outlined text-primary">mail</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Email Us</h3>
+                            <p class="text-slate-600 dark:text-slate-400 font-medium">
+                                info@oasisofhopeinitiativesisiolo.org</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative overflow-hidden rounded-xl h-[300px] shadow-lg group">
+                    <div class="absolute inset-0 bg-primary/10 flex items-center justify-center">
+                        <img alt="Map showing location in Kenya"
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            data-alt="Satellite view of landscape in Isiolo Kenya"
+                            data-location="Bulapesa, Isiolo County, Kenya"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRX94JT_LsQcDMgs9WL5NVGY7fEkVxvvZNNIcviT0PYXofikqy6adl2GOX1atpe8T9Hb8Z4QYfohaRYs5A2-Mf82maAzqHmrcD4Nh4lrpk1Ncljkv-tI3ZV_9abFgtkFTrFDDn6w8Ia6fnESwrBAlWRqIU_3ifIRGtvjyzyQrOl8lg-wR09L8PV8wrpDNNolc9CZfQl7Jlt0jSMbN49vOlxs2-TTXAp_qM1vAkEPePozMT0Yzq7qLmd48h07NY6FFUlWJcrQBIZVTA" />
+                    </div>
+                    <div
+                        class="absolute bottom-4 left-4 bg-white/90 dark:bg-background-dark/90 px-4 py-2 rounded-lg text-sm font-bold shadow-lg flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-sm">explore</span>
+                        Isiolo Town, Kenya
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-background-dark text-slate-300 py-16 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 text-left">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-6">
+                        <a href="index.html">
+                            <img src="assets/images/hero/logo.png" alt="Oasis of Hope Logo" class="w-8 h-8 rounded-lg" />
+                        </a>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-6">
+                        Dedicated to improving health outcomes and fostering economic independence in Northern Kenya
+                        since 2018.
+                    </p>
+                    <div class="flex gap-4">
+                        <a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-slate-900 transition-all font-bold"
+                            href="https://facebook.com">
+                            <span class="material-symbols-outlined text-xl">facebook</span>
+                        </a>
+                        <a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-slate-900 transition-all font-bold"
+                            href="https://twitter.com">
+                            <span class="material-symbols-outlined text-xl">share</span>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Quick Navigation</h4>
+                    <ul class="space-y-4 text-sm font-medium">
+                        <li><a class="hover:text-primary transition-colors" href="index.html">Home</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="login.html">Sign In</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="signup.html">Create Account</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="programs.html">Programs</a></li>
+                        <li><a class="text-primary font-bold" href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest text-left">Programs</h4>
+                    <ul class="space-y-4 text-sm font-medium text-left">
+                        <li><a class="hover:text-primary transition-colors" href="#">Primary Healthcare</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Clean Water Projects</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Women's Literacy</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Mobile Medical Camps</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Vocational Training</a></li>
+                    </ul>
+                </div>
+                <div class="text-left">
+                    <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest text-left">Newsletter</h4>
+                    <p class="text-sm mb-4">Stay updated on our latest impact.</p>
+                    <form class="flex flex-col gap-2">
+                        <input
+                            class="bg-white/5 border-white/10 rounded-lg px-4 py-3 text-sm focus:ring-primary focus:border-primary w-full"
+                            placeholder="Your email address" type="email" />
+                        <button
+                            class="bg-primary text-slate-900 font-bold py-3 rounded-lg hover:opacity-90 transition-all">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div
+                class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-500">
+                <p>© 2024 Oasis of Hope Initiatives. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+                    <a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Navigation Bar -->
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex justify-around items-center py-2 px-4 shadow-[0_-4px_10px_rgba(0,0,0,0.1)] transition-transform duration-300">
+        <a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors"
+            href="index.html">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-bold">Home</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors"
+            href="get-involved.html">
+            <span class="material-symbols-outlined">favorite</span>
+            <span class="text-[10px] font-bold">Donate</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors"
+            href="programs.html">
+            <span class="material-symbols-outlined">explore</span>
+            <span class="text-[10px] font-bold">Programs</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors"
+            href="login.html">
+            <span class="material-symbols-outlined">person</span>
+            <span class="text-[10px] font-bold">Account</span>
+        </a>
+    </nav>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/supabase.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const authNav = document.getElementById('auth-nav');
+
+            // Wait for Auth to initialize
+            const checkAuth = setInterval(() => {
+                if (window.Auth) {
+                    const user = window.Auth.getUser();
+                    if (user) {
+                        authNav.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <a href="profile.html" class="flex items-center gap-2 group decoration-none cursor-pointer">
+                                    <div class="w-8 h-8 rounded-full border border-primary/20 overflow-hidden flex items-center justify-center bg-slate-100 dark:bg-slate-800">
+                                        ${user.avatar && !user.avatar.includes('logo.png') 
+                                            ? `<img src="${user.avatar}" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.outerHTML='<span class=\\'material-symbols-outlined text-slate-400 text-lg\\'>person</span>';">` 
+                                            : `<span class="material-symbols-outlined text-slate-400 text-lg">person</span>`}
+                                    </div>
+                                    <div class="hidden sm:flex flex-col text-left">
+                                        <span class="text-[10px] font-black uppercase text-primary leading-none">${user.role}</span>
+                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">${user.username}</span>
+                                    </div>
+                                </a>
+                                <button onclick="Auth.logout()" class="p-2 text-slate-400 hover:text-red-500 transition-colors" title="Logout">
+                                    <span class="material-symbols-outlined text-xl">logout</span>
+                                </button>
+                            </div>
+                        `;
+                    }
+                    clearInterval(checkAuth);
+                }
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>

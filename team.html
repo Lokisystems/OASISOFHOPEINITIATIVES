@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Meet Our Team - Oasis of Hope Initiatives</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/hero/favicon.ico" />
+    <!-- Tailwind CSS with plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152210",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+    <!-- NGO Header -->
+    <header
+        class="sticky top-0 z-50 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-2">
+                    <a href="index.html">
+                        <img src="assets/images/hero/logo.png" alt="Oasis of Hope Logo" class="w-8 h-8 rounded-lg" />
+                    </a>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a class="text-slate-600 hover:text-primary transition-colors" href="index.html">Home</a>
+                    <a class="text-slate-600 hover:text-primary transition-colors" href="programs.html">Programs</a>
+                    <a class="text-primary font-bold" href="team.html">About</a>
+                    <a class="text-slate-600 hover:text-primary transition-colors" href="updates.html">Updates</a>
+                    <a class="text-slate-600 hover:text-primary transition-colors" href="contact.html">Contact</a>
+                </nav>
+
+                <!-- Action Buttons -->
+                <div id="auth-nav" class="flex items-center gap-4">
+                    <a class="hidden sm:block text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-primary transition-colors"
+                        href="login.html">Login</a>
+                    <a class="bg-primary text-slate-900 px-5 py-2 rounded-full font-bold text-sm hover:opacity-90 hover:shadow-lg hover:shadow-primary/20 transition-all"
+                        href="signup.html">
+                        Sign Up
+                    </a>
+                    <button
+                        class="md:hidden text-slate-600 dark:text-slate-400 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section class="py-12 md:py-20 bg-gradient-to-b from-primary/5 to-transparent">
+            <div class="max-w-3xl mx-auto px-4 text-center">
+                <h1 class="text-slate-900 dark:text-white text-4xl md:text-5xl font-bold tracking-tight mb-6">Meet Our
+                    Team</h1>
+                <p class="text-slate-600 dark:text-slate-400 text-lg md:text-xl leading-relaxed">
+                    Our dedicated team is deeply committed to empowering the communities of Isiolo through sustainable
+                    healthcare, clean water, and outreach initiatives.
+                </p>
+            </div>
+        </section>
+        <!-- Team Grid -->
+        <section class="max-w-7xl mx-auto px-4 pb-24">
+            <div class="flex flex-wrap justify-center gap-6">
+                <!-- Member 1: Dr. Moureen (Top Rank) -->
+                <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] xl:w-[calc(25%-1.5rem)] bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-primary/10 shadow-lg scale-105 z-10 hover:shadow-primary/20 transition-all flex flex-col h-full">
+                    <div class="w-full aspect-square rounded-lg mb-4 bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                        <img alt="Dr. Moureen" class="w-full h-full object-cover" src="assets/images/team/moureen.jpg" />
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1 text-center">Dr. Moureen</h3>
+                        <p class="text-primary font-bold text-sm mb-3 text-center uppercase tracking-wider">Family Physician</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-snug text-center">Dedicated to providing comprehensive healthcare and medical guidance to families in the Isiolo region.</p>
+                    </div>
+                </div>
+
+                <!-- Spacer to force next row if needed, but flex wrap handles it. 
+                     For a diamond shape, we want 1, then 2, then 3 etc. -->
+                <div class="w-full h-0"></div> <!-- Force row break after top leader -->
+
+                <!-- Member 11: Linda (Operations Manager) -->
+                <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] xl:w-[calc(20%-1.5rem)] bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-primary/5 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                    <div class="w-full aspect-square rounded-lg mb-4 bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                        <img alt="Linda" class="w-full h-full object-cover" src="assets/images/team/linda.jpeg" />
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1">Linda</h3>
+                        <p class="text-primary font-semibold text-sm mb-3">Operations Manager</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-snug">Overseeing core operations and strategic development for the Bible school, OHI CBO, and OHHC.</p>
+                    </div>
+                </div>
+
+                <!-- Member 2: Dr. James (Clinical Officer) -->
+                <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] xl:w-[calc(20%-1.5rem)] bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-primary/5 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                    <div class="w-full aspect-square rounded-lg mb-4 bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                        <img alt="Dr. James" class="w-full h-full object-cover" src="assets/images/team/james.jpg" />
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1">Dr. James</h3>
+                        <p class="text-primary font-semibold text-sm mb-3">Clinical Officer</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-snug">Expert in clinical diagnosis and primary care, ensuring high-quality treatment for our outreach patients.</p>
+                    </div>
+                </div>
+
+                <div class="w-full h-0"></div> <!-- Force row break after management -->
+
+                <!-- Member 3: Rn. Joseph -->
+                <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] xl:w-[calc(20%-1.5rem)] bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-primary/5 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                    <div class="w-full aspect-square rounded-lg mb-4 bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                        <img alt="Rn. Joseph" class="w-full h-full object-cover" src="assets/images/team/joseph.jpg" />
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1">Rn. Joseph</h3>
+                        <p class="text-primary font-semibold text-sm mb-3">Registered Nurse</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-snug">Committed to patient care excellence and community health education across our project sites.</p>
+                    </div>
+                </div>
+
+                <!-- Member 7: Bosire (HR) -->
+                <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] xl:w-[calc(20%-1.5rem)] bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-primary/5 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                    <div class="w-full aspect-square rounded-lg mb-4 bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                        <img alt="Bosire" class="w-full h-full object-cover" src="assets/images/team/bosire.jpg" />
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1">Bosire</h3>
+                        <p class="text-primary font-semibold text-sm mb-3">Human Resources</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-snug">Managing our most valuable asset—our people—to ensure a productive and harmonious work environment.</p>
+                    </div>
+                </div>
+
+                <!-- Member 4: Guyatu (Women Empowerment Lead) -->
+                <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] xl:w-[calc(20%-1.5rem)] bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-primary/5 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                    <div class="w-full aspect-square rounded-lg mb-4 bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                        <img alt="Guyatu" class="w-full h-full object-cover" src="assets/images/team/michelle (2).jpg" />
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1">Guyatu</h3>
+                        <p class="text-primary font-semibold text-sm mb-3">Women Empowerment Lead</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-snug">Driving initiatives that foster self-reliance, leadership, and economic growth for local women.</p>
+                    </div>
+                </div>
+
+                <!-- Row 4: Technical & Support -->
+                <!-- Member 6: Douglas (Lab) -->
+                <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] xl:w-[calc(20%-1.5rem)] bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-primary/5 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                    <div class="w-full aspect-square rounded-lg mb-4 bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                        <img alt="Douglas" class="w-full h-full object-cover" src="assets/images/team/douglas.jpg" />
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1">Douglas</h3>
+                        <p class="text-primary font-semibold text-sm mb-3">Lab Technician</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-snug">Ensuring accuracy in diagnostic testing to support effective medical interventions and health monitoring.</p>
+                    </div>
+                </div>
+
+                <!-- Member 9: Timothy (ICT) -->
+                <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] xl:w-[calc(20%-1.5rem)] bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-primary/5 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                    <div class="w-full aspect-square rounded-lg mb-4 bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                        <img alt="Timothy" class="w-full h-full object-cover" src="assets/images/team/Timothy.jpg" />
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1">Timothy</h3>
+                        <p class="text-primary font-semibold text-sm mb-3">ICT Officer</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-snug">Leveraging technology to improve our operational efficiency and community outreach data management.</p>
+                    </div>
+                </div>
+
+                <!-- Member 5: Boru -->
+                <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] xl:w-[calc(20%-1.5rem)] bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-primary/5 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                    <div class="w-full aspect-square rounded-lg mb-4 bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                        <img alt="Boru" class="w-full h-full object-cover" src="assets/images/team/boru.jpg" />
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1">Boru</h3>
+                        <p class="text-primary font-semibold text-sm mb-3">Community Liaison</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-snug">Bridging the gap between the initiative and the local community to ensure impactful project delivery.</p>
+                    </div>
+                </div>
+
+                <!-- Row 5: Front Office & Security -->
+                <!-- Member 8: Elizabeth -->
+                <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] xl:w-[calc(20%-1.5rem)] bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-primary/5 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                    <div class="w-full aspect-square rounded-lg mb-4 bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                        <img alt="Elizabeth" class="w-full h-full object-cover" src="assets/images/team/elizabeth.jpg" />
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1">Elizabeth</h3>
+                        <p class="text-primary font-semibold text-sm mb-3">Receptionist</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-snug">The welcoming face of Oasis of Hope, ensuring every visitor and patient is directed with care.</p>
+                    </div>
+                </div>
+
+                <!-- Member 10: Abdinoor -->
+                <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-1.5rem)] xl:w-[calc(20%-1.5rem)] bg-white dark:bg-slate-800/50 p-4 rounded-xl border border-primary/5 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                    <div class="w-full aspect-square rounded-lg mb-4 bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                        <img alt="Abdinoor" class="w-full h-full object-cover" src="assets/images/team/abdinoor.jpg" />
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <h3 class="text-slate-900 dark:text-white font-bold text-lg mb-1">Abdinoor</h3>
+                        <p class="text-primary font-semibold text-sm mb-3">Security Officer</p>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm leading-snug">Ensuring the safety and security of our facilities, staff, and the communities we serve.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-background-dark text-slate-300 py-16 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 text-left">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-6">
+                        <a href="index.html">
+                            <img src="assets/images/hero/logo.png" alt="Oasis of Hope Logo" class="w-8 h-8 rounded-lg" />
+                        </a>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-6">
+                        Dedicated to improving health outcomes and fostering economic independence in Northern Kenya
+                        since 2018.
+                    </p>
+                    <div class="flex gap-4">
+                        <a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-slate-900 transition-all font-bold"
+                            href="https://facebook.com">
+                            <span class="material-symbols-outlined text-xl">facebook</span>
+                        </a>
+                        <a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-slate-900 transition-all font-bold"
+                            href="https://twitter.com">
+                            <span class="material-symbols-outlined text-xl">share</span>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest">Quick Navigation</h4>
+                    <ul class="space-y-4 text-sm font-medium">
+                        <li><a class="hover:text-primary transition-colors" href="index.html">Home</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="login.html">Sign In</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="signup.html">Create Account</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="programs.html">Programs</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest text-left">Programs</h4>
+                    <ul class="space-y-4 text-sm font-medium text-left">
+                        <li><a class="hover:text-primary transition-colors" href="#">Primary Healthcare</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Clean Water Projects</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Women's Literacy</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Mobile Medical Camps</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Vocational Training</a></li>
+                    </ul>
+                </div>
+                <div class="text-left">
+                    <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest text-left">Newsletter</h4>
+                    <p class="text-sm mb-4">Stay updated on our latest impact.</p>
+                    <form class="flex flex-col gap-2">
+                        <input
+                            class="bg-white/5 border-white/10 rounded-lg px-4 py-3 text-sm focus:ring-primary focus:border-primary w-full"
+                            placeholder="Your email address" type="email" />
+                        <button
+                            class="bg-primary text-slate-900 font-bold py-3 rounded-lg hover:opacity-90 transition-all">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div
+                class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-500">
+                <p>© 2024 Oasis of Hope Initiatives. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+                    <a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Navigation Bar -->
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex justify-around items-center py-2 px-4 shadow-[0_-4px_10px_rgba(0,0,0,0.1)] transition-transform duration-300">
+        <a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors"
+            href="index.html">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-bold">Home</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors"
+            href="get-involved.html">
+            <span class="material-symbols-outlined">favorite</span>
+            <span class="text-[10px] font-bold">Donate</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors"
+            href="programs.html">
+            <span class="material-symbols-outlined">explore</span>
+            <span class="text-[10px] font-bold">Programs</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-slate-400 hover:text-primary transition-colors"
+            href="login.html">
+            <span class="material-symbols-outlined">person</span>
+            <span class="text-[10px] font-bold">Account</span>
+        </a>
+    </nav>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/supabase.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const authNav = document.getElementById('auth-nav');
+
+            // Wait for Auth to initialize
+            const checkAuth = setInterval(() => {
+                if (window.Auth) {
+                    const user = window.Auth.getUser();
+                    if (user) {
+                        authNav.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <a href="profile.html" class="flex items-center gap-2 group decoration-none cursor-pointer">
+                                    ${user.avatar && !user.avatar.includes('logo.png') 
+                                        ? `<img src="${user.avatar}" class="w-8 h-8 rounded-full border border-primary/20 object-cover group-hover:scale-105 transition-transform" onerror="this.outerHTML='<div class=\\'size-8 rounded-full border border-primary/20 bg-slate-100 flex items-center justify-center group-hover:scale-105 transition-transform\\'><span class=\\'material-symbols-outlined text-slate-400 text-sm\\'>person</span></div>';">` 
+                                        : `<div class="size-8 rounded-full border border-primary/20 bg-slate-100 flex items-center justify-center group-hover:scale-105 transition-transform"><span class="material-symbols-outlined text-slate-400 text-sm">person</span></div>`}
+                                    <div class="hidden lg:flex flex-col text-left">
+                                        <span class="text-[10px] font-black uppercase text-primary leading-none">${user.role}</span>
+                                        <span class="text-xs font-bold text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">${user.username}</span>
+                                    </div>
+                                </a>
+                                <button onclick="window.Auth.logout()" class="p-2 text-slate-400 hover:text-red-500 transition-colors" title="Logout">
+                                    <span class="material-symbols-outlined text-xl">logout</span>
+                                </button>
+                            </div>
+                        `;
+                    }
+                }
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>

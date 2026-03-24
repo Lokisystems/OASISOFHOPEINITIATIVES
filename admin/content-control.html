@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Post Creation &amp; Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="icon" type="image/x-icon" href="../assets/images/hero/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152210",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+    <header
+        class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
+        <div class="flex items-center justify-between px-4 py-3 max-w-4xl mx-auto w-full">
+            <a href="dashboard.html" class="flex items-center gap-3 decoration-none">
+                <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Admin Hub</h1>
+            </a>
+            <div class="flex items-center gap-4">
+                <button class="p-2 rounded-full hover:bg-primary/10 transition-colors" onclick="Auth.logout()">
+                    <span class="material-symbols-outlined">logout</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="max-w-4xl mx-auto p-4 md:p-8 space-y-12">
+        <!-- Create Official Update Section -->
+        <section class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-primary/20 overflow-hidden">
+            <div class="p-6 border-b border-primary/10 bg-primary/5">
+                <h3 class="text-lg font-bold">Create Official Update</h3>
+                <p class="text-sm text-slate-500">Official announcements appear in the main feed with special styling
+                </p>
+            </div>
+            <form id="announcementForm" class="p-6 space-y-6">
+                <div class="space-y-1.5">
+                    <label class="text-sm font-semibold">Announcement Text</label>
+                    <textarea id="announcementText"
+                        class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary"
+                        placeholder="What's the news for the community?" rows="3" required></textarea>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-sm font-semibold">Media (Optional)</label>
+                    <div id="mediaDropzone"
+                        class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-8 flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-800/50 cursor-pointer hover:border-primary transition-colors relative">
+                        <input type="file" id="mediaInput" class="hidden" accept="image/*,video/*">
+                        <span class="material-symbols-outlined text-4xl text-slate-400 mb-2">add_a_photo</span>
+                        <p class="text-sm font-medium" id="mediaStatus">Click to add photo/video</p>
+                        <div id="mediaPreview"
+                            class="hidden absolute inset-0 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center">
+                            <img src="" class="h-full w-full object-contain p-2">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t border-primary/10">
+                    <button type="submit" id="publishBtn"
+                        class="px-8 py-3 rounded-xl bg-primary text-slate-900 font-bold hover:shadow-lg hover:shadow-primary/20 transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined">send</span>
+                        Publish Announcement
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Create Long-form Story Section -->
+        <section class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-primary/20 overflow-hidden">
+            <div class="p-6 border-b border-primary/10 bg-primary/5">
+                <h3 class="text-lg font-bold">Create News Story</h3>
+                <p class="text-sm text-slate-500">Long-form stories appear in the "Latest News" section on the home page</p>
+            </div>
+            <form id="storyForm" class="p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-semibold">Story Title</label>
+                        <input type="text" id="storyTitle" class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800" placeholder="Enter headline" required>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-semibold">Category</label>
+                        <select id="storyCategory" class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800">
+                            <option value="Medical">Medical</option>
+                            <option value="Water">Water</option>
+                            <option value="Empowerment">Empowerment</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-sm font-semibold">Brief Summary (Short card text)</label>
+                    <textarea id="storySummary" class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800" rows="2" placeholder="Visible on the card..."></textarea>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-sm font-semibold">Full Story Content</label>
+                    <textarea id="storyContent" class="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800" rows="8" placeholder="The complete story..."></textarea>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-sm font-semibold">Story Image</label>
+                    <div id="storyMediaDropzone" class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-8 flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-800/50 cursor-pointer hover:border-primary transition-colors relative">
+                        <input type="file" id="storyMediaInput" class="hidden" accept="image/*">
+                        <span class="material-symbols-outlined text-4xl text-slate-400 mb-2">image</span>
+                        <p class="text-sm font-medium" id="storyMediaStatus">Click to upload story image</p>
+                        <div id="storyMediaPreview" class="hidden absolute inset-0 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center">
+                            <img src="" class="h-full w-full object-contain p-2">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-4">
+                    <button type="submit" id="publishStoryBtn" class="px-8 py-3 rounded-xl bg-primary text-slate-900 font-bold hover:shadow-lg transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined">auto_stories</span>
+                        Publish Story
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Community Post Moderation Section -->
+        <section
+            class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                <h3 class="text-lg font-bold">Community Post Moderation</h3>
+                <span id="postCount" class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full font-bold">0
+                    Active Posts</span>
+            </div>
+
+            <div class="divide-y divide-slate-100 dark:divide-slate-800" id="postModerationList">
+                <div class="p-12 text-center text-slate-500 text-sm">
+                    <div
+                        class="size-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-4">
+                    </div>
+                    Loading community feed...
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav
+        class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-4 pb-6 pt-3 z-50">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <a class="flex flex-col items-center gap-1.5 text-slate-400" href="dashboard.html">
+                <span class="material-symbols-outlined text-[22px]">dashboard</span>
+                <span class="text-[10px] font-black uppercase tracking-widest">Dash</span>
+            </a>
+            <a class="flex flex-col items-center gap-1.5 text-slate-400" href="moderation.html">
+                <span class="material-symbols-outlined text-[22px]">group</span>
+                <span class="text-[10px] font-black uppercase tracking-widest">Users</span>
+            </a>
+            <a class="flex flex-col items-center gap-1.5 text-slate-400" href="moderation-queue.html">
+                <span class="material-symbols-outlined text-[22px]">person_search</span>
+                <span class="text-[10px] font-black uppercase tracking-widest">Queue</span>
+            </a>
+            <a class="flex flex-col items-center gap-1.5 text-primary" href="content-control.html">
+                <span class="material-symbols-outlined text-[22px]"
+                    style="font-variation-settings: 'FILL' 1">gavel</span>
+                <span class="text-[10px] font-black uppercase tracking-widest">Content</span>
+            </a>
+        </div>
+    </nav>
+    <div class="h-24"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/supabase.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        const ContentApp = {
+            uploadedMediaUrl: null,
+
+            async init() {
+                const authReady = setInterval(() => {
+                    if (window.Auth && window.Auth.getUser()) {
+                        this.loadPosts();
+                        this.initAnnouncementForm();
+                        this.initStoryForm();
+                        clearInterval(authReady);
+                    }
+                }, 100);
+            },
+
+            async loadPosts() {
+                const list = document.getElementById('postModerationList');
+                const badge = document.getElementById('postCount');
+
+                try {
+                    const posts = await window.RemoteDB.getCommunityPosts();
+                    badge.textContent = `${posts.length} Active Posts`;
+
+                    if (!posts || posts.length === 0) {
+                        list.innerHTML = `<div class="p-12 text-center text-slate-400 italic">No community posts yet.</div>`;
+                        return;
+                    }
+
+                    list.innerHTML = posts.map(post => `
+                        <div class="p-6 flex flex-col md:flex-row gap-6 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                            ${post.media_url ? `
+                                <div class="w-24 h-24 shrink-0 rounded-lg overflow-hidden border border-primary/10">
+                                    <img src="${post.media_url}" class="w-full h-full object-cover">
+                                </div>
+                            ` : `
+                                <div class="w-24 h-24 shrink-0 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-slate-300">notes</span>
+                                </div>
+                            `}
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-bold text-slate-900 dark:text-white">${post.profiles?.username || 'Unknown'}</p>
+                                        <p class="text-[10px] text-slate-500">${new Date(post.created_at).toLocaleString()}</p>
+                                    </div>
+                                    <button onclick="ContentApp.deletePost('${post.id}')" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Delete Post">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </button>
+                                </div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400 mt-2 line-clamp-3">${post.text}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                } catch (err) {
+                    list.innerHTML = `<div class="p-12 text-center text-red-500">Error: ${err.message}</div>`;
+                }
+            },
+
+            async deletePost(id) {
+                if (!confirm('Are you sure you want to delete this community post permanently?')) return;
+
+                const success = await window.RemoteDB.deleteActivity(id);
+                if (success) {
+                    if (window.RemoteDB.logAdminAction) {
+                        await window.RemoteDB.logAdminAction('deleted post', `ID: ${id}`);
+                    }
+                    this.loadPosts();
+                    alert('Post deleted successfully.');
+                } else {
+                    alert('Failed to delete post.');
+                }
+            },
+
+            initAnnouncementForm() {
+                const dropzone = document.getElementById('mediaDropzone');
+                const input = document.getElementById('mediaInput');
+                const form = document.getElementById('announcementForm');
+
+                dropzone.onclick = () => input.click();
+
+                input.onchange = async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    document.getElementById('mediaStatus').textContent = 'Uploading...';
+                    const urls = await window.RemoteDB.uploadMedia([file]);
+                    const url = urls[0];
+
+                    if (url) {
+                        this.uploadedMediaUrl = url;
+                        document.getElementById('mediaStatus').textContent = 'Media Ready!';
+                        const preview = document.getElementById('mediaPreview');
+                        preview.querySelector('img').src = url;
+                        preview.classList.remove('hidden');
+                    } else {
+                        document.getElementById('mediaStatus').textContent = 'Upload Failed.';
+                    }
+                };
+
+                form.onsubmit = async (e) => {
+                    e.preventDefault();
+                    const text = document.getElementById('announcementText').value;
+                    const btn = document.getElementById('publishBtn');
+
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Publishing...';
+
+                    const success = await window.RemoteDB.addCommunityPost({
+                        text: text,
+                        media_url: this.uploadedMediaUrl,
+                        media_type: this.uploadedMediaUrl ? 'image' : 'none',
+                        tag: 'Announcement'
+                    });
+
+                    if (success) {
+                        if (window.RemoteDB.logAdminAction) {
+                            await window.RemoteDB.logAdminAction('published announcement', text.substring(0, 30) + '...');
+                        }
+                        alert('Official update published!');
+                        form.reset();
+                        this.uploadedMediaUrl = null;
+                        document.getElementById('mediaPreview').classList.add('hidden');
+                        document.getElementById('mediaStatus').textContent = 'Click to add photo/video';
+                        this.loadPosts();
+                    } else {
+                        alert('Publish failed.');
+                    }
+
+                    btn.disabled = false;
+                    btn.innerHTML = '<span class="material-symbols-outlined">send</span> Publish Announcement';
+                };
+            },
+
+            initStoryForm() {
+                const dropzone = document.getElementById('storyMediaDropzone');
+                const input = document.getElementById('storyMediaInput');
+                const form = document.getElementById('storyForm');
+                let uploadedUrl = null;
+
+                dropzone.onclick = () => input.click();
+
+                input.onchange = async (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    document.getElementById('storyMediaStatus').textContent = 'Uploading...';
+                    const urls = await window.RemoteDB.uploadMedia([file]);
+                    if (urls[0]) {
+                        uploadedUrl = urls[0];
+                        document.getElementById('storyMediaStatus').textContent = 'Image Ready!';
+                        const preview = document.getElementById('storyMediaPreview');
+                        preview.querySelector('img').src = uploadedUrl;
+                        preview.classList.remove('hidden');
+                    }
+                };
+
+                form.onsubmit = async (e) => {
+                    e.preventDefault();
+                    const btn = document.getElementById('publishStoryBtn');
+                    btn.disabled = true;
+                    btn.innerHTML = 'Publishing...';
+
+                    const success = await window.RemoteDB.addStory({
+                        title: document.getElementById('storyTitle').value,
+                        category: document.getElementById('storyCategory').value,
+                        summary: document.getElementById('storySummary').value,
+                        content: document.getElementById('storyContent').value,
+                        image_url: uploadedUrl
+                    });
+
+                    if (success) {
+                        alert('Story published successfully!');
+                        form.reset();
+                        uploadedUrl = null;
+                        document.getElementById('storyMediaPreview').classList.add('hidden');
+                        document.getElementById('storyMediaStatus').textContent = 'Click to upload story image';
+                    } else {
+                        alert('Failed to publish story.');
+                    }
+                    btn.disabled = false;
+                    btn.innerHTML = '<span class="material-symbols-outlined">auto_stories</span> Publish Story';
+                };
+            }
+        };
+
+        ContentApp.init();
+    </script>
+</body>
+
+</html>

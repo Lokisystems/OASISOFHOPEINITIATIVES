@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Admin Registration - Oasis of Hope</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="icon" type="image/x-icon" href="../assets/images/hero/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152210",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.4rem", "lg": "0.8rem", "xl": "1.2rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+
+<body class="bg-background-dark font-display text-slate-100 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full glass p-8 rounded-2xl shadow-2xl relative overflow-hidden border border-primary/20">
+        <!-- Glow Effect -->
+        <div class="absolute -top-24 -left-24 size-48 bg-primary/20 blur-[100px] rounded-full"></div>
+        <div class="absolute -bottom-24 -right-24 size-48 bg-primary/20 blur-[100px] rounded-full"></div>
+
+        <div class="relative z-10 text-center mb-8">
+            <div class="size-16 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4 rotate-3">
+                <span class="material-symbols-outlined text-background-dark text-4xl">admin_panel_settings</span>
+            </div>
+            <h1 class="text-3xl font-bold tracking-tight text-white mb-2">Admin Signup</h1>
+            <p class="text-slate-400 text-sm">Create a fresh admin account for moderation.</p>
+        </div>
+
+        <div class="space-y-4 relative z-10">
+            <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Admin Secret
+                    Key</label>
+                <input id="admin-secret" type="password"
+                    class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    placeholder="Enter key to authorize..." />
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Full
+                        Name</label>
+                    <input id="admin-fullname" type="text"
+                        class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                        placeholder="Full name" />
+                </div>
+                <div>
+                    <label
+                        class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Username</label>
+                    <input id="admin-username" type="text"
+                        class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                        placeholder="username" />
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Email
+                    Address</label>
+                <input id="admin-email" type="email"
+                    class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    placeholder="admin@oasis.org" />
+            </div>
+
+            <div>
+                <label
+                    class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Password</label>
+                <input id="admin-password" type="password"
+                    class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    placeholder="••••••••" />
+            </div>
+
+            <button id="admin-signup-btn"
+                class="w-full bg-primary hover:bg-primary/90 text-background-dark font-black py-4 rounded-xl shadow-lg shadow-primary/20 transform active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-4">
+                <span class="material-symbols-outlined">how_to_reg</span>
+                Finalize Admin Access
+            </button>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-slate-700/50 text-center relative z-10">
+            <p class="text-slate-500 text-xs">
+                Already an admin? <a href="../login.html" class="text-primary font-bold hover:underline">Sign In</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/supabase.js"></script>
+    <script src="../assets/js/auth.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const signupBtn = document.getElementById('admin-signup-btn');
+            const secretInput = document.getElementById('admin-secret');
+            const fullnameInput = document.getElementById('admin-fullname');
+            const usernameInput = document.getElementById('admin-username');
+            const emailInput = document.getElementById('admin-email');
+            const passwordInput = document.getElementById('admin-password');
+
+            signupBtn.onclick = async () => {
+                const secret = secretInput.value.trim();
+                const fullName = fullnameInput.value.trim();
+                const username = usernameInput.value.trim();
+                const email = emailInput.value.trim();
+                const password = passwordInput.value;
+
+                if (!secret || !fullName || !username || !email || !password) {
+                    alert('Please fill in all security fields.');
+                    return;
+                }
+
+                if (secret !== 'OASIS_ADMIN_2026') {
+                    alert('Invalid Secret Admin Key. Access denied.');
+                    return;
+                }
+
+                signupBtn.disabled = true;
+                signupBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Authorizing...';
+
+                try {
+                    const result = await Auth.register({
+                        fullName,
+                        username,
+                        email,
+                        password
+                    }, secret);
+
+                    if (result.success) {
+                        alert('Admin account created successfully! Redirecting to login.');
+                        window.location.href = '../login.html';
+                    } else {
+                        alert('Registration failed: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    alert('An unexpected error occurred during admin provisioning.');
+                } finally {
+                    signupBtn.disabled = false;
+                    signupBtn.innerHTML = '<span class="material-symbols-outlined">how_to_reg</span> Finalize Admin Access';
+                }
+            };
+        });
+    </script>
+</body>
+
+</html>

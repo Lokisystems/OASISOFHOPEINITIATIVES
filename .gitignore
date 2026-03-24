@@ -1,0 +1,11 @@
+# Temporary files
+tmp_*.js
+*.log
+
+# Sensitive info (just in case)
+.env
+secret.txt
+
+# OS files
+.DS_Store
+Thumbs.db

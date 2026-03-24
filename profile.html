@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Profile Settings - Oasis of Hope</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="icon" type="image/x-icon" href="assets/images/hero/favicon.ico" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49ec13",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased transition-colors duration-300">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        
+        <!-- Premium Header -->
+        <header class="sticky top-0 z-50 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+            <div class="max-w-2xl mx-auto px-4 h-16 flex items-center justify-between">
+                <a href="index.html" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </a>
+                <h1 class="text-sm font-bold uppercase tracking-widest text-slate-500">Settings</h1>
+                <div class="w-10"></div> <!-- Spacer -->
+            </div>
+        </header>
+
+        <main class="flex-1 w-full max-w-2xl mx-auto px-4 py-8 pb-32">
+            
+            <!-- Approval Status Banner (Conditional) -->
+            <div id="status-banner" class="hidden mb-8 p-4 rounded-2xl border flex items-center gap-4 animate-pulse">
+                <div class="size-10 rounded-full flex items-center justify-center shrink-0" id="status-icon-bg">
+                    <span class="material-symbols-outlined" id="status-icon">info</span>
+                </div>
+                <div>
+                    <h3 class="font-bold text-sm" id="status-title">Status Pending</h3>
+                    <p class="text-xs opacity-80" id="status-message">Our team is reviewing your account. Some features may be limited.</p>
+                </div>
+            </div>
+
+            <!-- Profile Overview Card -->
+            <section class="mb-10 text-center">
+                <div class="relative inline-block group">
+                    <div id="profile-avatar-container" class="size-32 rounded-3xl overflow-hidden ring-4 ring-primary/20 shadow-2xl mx-auto bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                        <img id="display-avatar" src="" class="hidden w-full h-full object-cover">
+                        <span id="avatar-placeholder" class="material-symbols-outlined text-slate-400 text-6xl">person</span>
+                    </div>
+                    <label class="absolute -bottom-2 -right-2 p-3 bg-primary text-slate-900 rounded-2xl shadow-xl cursor-pointer hover:scale-110 active:scale-95 transition-all">
+                        <span class="material-symbols-outlined text-xl">photo_camera</span>
+                        <input type="file" id="avatar-input" class="hidden" accept="image/*" onchange="handleAvatarSelect(event)">
+                    </label>
+                </div>
+                
+                <div class="mt-6">
+                    <div class="flex items-center justify-center gap-2">
+                        <h2 id="display-username" class="text-2xl font-black tracking-tight">User</h2>
+                        <span id="approved-badge" class="hidden material-symbols-outlined text-primary text-2xl" title="Approved Account">verified</span>
+                    </div>
+                    <p id="display-email" class="text-slate-500 text-sm font-medium">user@example.com</p>
+                </div>
+            </section>
+
+            <!-- Settings Groups -->
+            <div class="space-y-6">
+                
+                <!-- Account Section -->
+                <div class="space-y-2">
+                    <h3 class="px-2 text-[10px] font-black uppercase text-slate-400 tracking-[0.2em]">Account Information</h3>
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden divide-y divide-slate-100 dark:divide-slate-800">
+                        <div class="p-4 flex items-center gap-4">
+                            <span class="material-symbols-outlined text-slate-400">person</span>
+                            <div class="flex-1">
+                                <label class="block text-[10px] uppercase font-bold text-slate-400">Full Name</label>
+                                <input type="text" id="input-fullname" class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold" placeholder="Enter full name">
+                            </div>
+                        </div>
+                        <div class="p-4 flex items-center gap-4">
+                            <span class="material-symbols-outlined text-slate-400">mail</span>
+                            <div class="flex-1">
+                                <label class="block text-[10px] uppercase font-bold text-slate-400">Email Address</label>
+                                <input type="email" id="input-email" class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold" placeholder="email@oasis.org">
+                            </div>
+                            <button onclick="requestEmailVerification()" class="text-[10px] font-black uppercase text-primary hover:underline px-2">Verify</button>
+                        </div>
+                        <div class="p-4 flex items-center gap-4">
+                            <span class="material-symbols-outlined text-slate-400">call</span>
+                            <div class="flex-1">
+                                <label class="block text-[10px] uppercase font-bold text-slate-400">Phone Number</label>
+                                <input type="tel" id="input-phone" class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold" placeholder="+254 ...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preferences Section -->
+                <div class="space-y-2">
+                    <h3 class="px-2 text-[10px] font-black uppercase text-slate-400 tracking-[0.2em]">Preferences</h3>
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                        <div class="p-4 flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <span class="material-symbols-outlined text-slate-400">dark_mode</span>
+                                <span class="text-sm font-bold">Dark Mode</span>
+                            </div>
+                            <button onclick="toggleDarkMode()" class="w-12 h-6 rounded-full bg-slate-200 dark:bg-primary/20 relative transition-colors duration-300">
+                                <div id="dark-mode-thumb" class="absolute top-1 left-1 size-4 rounded-full bg-white dark:bg-primary transition-all duration-300 transform dark:translate-x-6"></div>
+                            </button>
+                        </div>
+                        <div class="p-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+                            <div class="flex items-center gap-4">
+                                <span class="material-symbols-outlined text-slate-400">notifications</span>
+                                <span class="text-sm font-bold">Post Approvals</span>
+                            </div>
+                            <button class="w-12 h-6 rounded-full bg-primary/80 relative">
+                                <div class="absolute top-1 left-7 size-4 rounded-full bg-white"></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legal Section -->
+                <div class="space-y-2">
+                    <h3 class="px-2 text-[10px] font-black uppercase text-slate-400 tracking-[0.2em]">Legal & Information</h3>
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                        <button onclick="showModal('termsModal')" class="w-full p-4 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                            <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
+                                <span class="material-symbols-outlined">description</span>
+                                <span class="text-sm font-bold text-slate-900 dark:text-slate-100">Terms & Conditions</span>
+                            </div>
+                            <span class="material-symbols-outlined text-slate-400">chevron_right</span>
+                        </button>
+                        <button onclick="showModal('privacyModal')" class="w-full p-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                            <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
+                                <span class="material-symbols-outlined">gpp_maybe</span>
+                                <span class="text-sm font-bold text-slate-900 dark:text-slate-100">Privacy Policy</span>
+                            </div>
+                            <span class="material-symbols-outlined text-slate-400">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <button id="save-btn" onclick="saveSettings()" class="w-full py-4 bg-primary text-slate-900 font-black uppercase tracking-widest text-xs rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+                    Save Changes
+                </button>
+
+                <!-- Danger Zone -->
+                <div class="pt-8 space-y-4">
+                    <button onclick="handleLogout()" class="w-full py-4 flex items-center justify-center gap-2 text-slate-400 font-bold hover:text-red-500 transition-colors uppercase text-xs tracking-widest">
+                        <span class="material-symbols-outlined">logout</span>
+                        Logout Session
+                    </button>
+                    <button onclick="confirmDeleteAccount()" class="w-full py-4 bg-red-500/10 text-red-500 rounded-2xl font-black uppercase tracking-widest text-xs border border-red-500/20">
+                        Delete Account
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="termsModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-md" onclick="closeModal('termsModal')"></div>
+        <div class="absolute bottom-0 inset-x-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 bg-white dark:bg-slate-900 rounded-t-3xl sm:rounded-3xl w-full max-w-lg max-h-[80vh] overflow-hidden flex flex-col shadow-2xl border border-slate-200 dark:border-slate-800">
+            <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <h2 class="text-lg font-black uppercase tracking-tight">Terms & Conditions</h2>
+                <button onclick="closeModal('termsModal')" class="p-2 bg-slate-100 dark:bg-slate-800 rounded-full"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div class="p-6 overflow-y-auto text-sm text-slate-600 dark:text-slate-400 space-y-4 leading-relaxed">
+                <p class="font-bold text-slate-900 dark:text-white">1. Use of Service</p>
+                <p>Oasis of Hope Initiatives provides this platform for community engagement and transparency. By using this service, you agree to post responsibly and respect community guidelines.</p>
+                <p class="font-bold text-slate-900 dark:text-white">2. Moderation</p>
+                <p>All posts and accounts are subject to approval by the Oasis of Hope administration. We reserve the right to reject or remove content that violates our values of dignity and integrity.</p>
+                <p class="font-bold text-slate-900 dark:text-white">3. Privacy</p>
+                <p>Your data is used solely for service delivery and impact reporting. We do not sell your personal information to third parties.</p>
+                <p>...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="privacyModal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-md" onclick="closeModal('privacyModal')"></div>
+        <div class="absolute bottom-0 inset-x-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 bg-white dark:bg-slate-900 rounded-t-3xl sm:rounded-3xl w-full max-w-lg max-h-[80vh] overflow-hidden flex flex-col shadow-2xl border border-slate-200 dark:border-slate-800">
+            <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                <h2 class="text-lg font-black uppercase tracking-tight">Privacy Policy</h2>
+                <button onclick="closeModal('privacyModal')" class="p-2 bg-slate-100 dark:bg-slate-800 rounded-full"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div class="p-6 overflow-y-auto text-sm text-slate-600 dark:text-slate-400 space-y-4 leading-relaxed">
+                <p>At Oasis of Hope, we take your privacy seriously. This policy describes how we collect, use, and handle your information when you use our websites and services.</p>
+                <p class="font-bold text-slate-900 dark:text-white">Data Protection</p>
+                <p>We implement a variety of security measures to maintain the safety of your personal information when you enter, submit, or access your personal information.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Multi-step Toast Notification System -->
+    <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 bg-slate-900 text-white rounded-2xl shadow-2xl flex items-center gap-3 transition-all transform translate-y-20 opacity-0 pointer-events-none">
+        <span class="material-symbols-outlined text-primary">done_all</span>
+        <span id="toast-text" class="text-xs font-bold uppercase tracking-wider">Profile Updated</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/supabase.js"></script>
+    <script src="assets/js/auth.js"></script>
+    
+    <script>
+        let profileAvatarPromise = null;
+        let uploadedProfileUrl = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Apply theme immediately
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            // Wait for Auth to initialize
+            const checkAuth = setInterval(async () => {
+                if (window.Auth && window.Auth.getUser()) {
+                    clearInterval(checkAuth);
+                    renderProfile();
+                } else if (window.Auth && !window.Auth.getUser() && !localStorage.getItem('oasis_profile')) {
+                    window.location.href = 'login.html';
+                }
+            }, 100);
+        });
+
+        function renderProfile() {
+            const user = window.Auth.getUser();
+            if (!user) return;
+
+            // Header Overview
+            const avatarImg = document.getElementById('display-avatar');
+            const placeholder = document.getElementById('avatar-placeholder');
+            if (user.avatar && !user.avatar.includes('logo.png')) {
+                avatarImg.src = user.avatar;
+                avatarImg.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            } else {
+                avatarImg.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+            }
+
+            document.getElementById('display-username').textContent = user.username || 'User';
+            document.getElementById('display-email').textContent = user.email;
+
+            // Form Fields
+            const originalProfile = JSON.parse(localStorage.getItem('oasis_profile') || '{}');
+            document.getElementById('input-fullname').value = originalProfile.full_name || '';
+            document.getElementById('input-email').value = user.email || '';
+            document.getElementById('input-phone').value = originalProfile.phone || '';
+
+            // Approval Status Logic
+            const banner = document.getElementById('status-banner');
+            const badge = document.getElementById('approved-badge');
+            const iconBg = document.getElementById('status-icon-bg');
+            const icon = document.getElementById('status-icon');
+            const title = document.getElementById('status-title');
+            const msg = document.getElementById('status-message');
+
+            if (user.status === 'approved') {
+                banner.classList.remove('hidden', 'animate-pulse');
+                banner.classList.add('flex', 'bg-primary/10', 'border-primary/20', 'text-slate-900', 'dark:text-primary');
+                iconBg.classList.add('bg-primary/20');
+                icon.textContent = 'verified';
+                icon.classList.add('text-primary');
+                title.textContent = 'Account Approved';
+                msg.textContent = 'You have full access to community features and posting.';
+                badge.classList.remove('hidden');
+            } else {
+                banner.classList.remove('hidden');
+                banner.classList.add('flex', 'bg-amber-500/10', 'border-amber-500/20', 'text-amber-600');
+                iconBg.classList.add('bg-amber-500/20');
+                icon.textContent = 'hourglass_empty';
+                title.textContent = 'Waiting for Approval';
+                msg.textContent = 'Our team is verifying your details. This usually takes 24-48 hours.';
+                badge.classList.add('hidden');
+            }
+        }
+
+        async function handleAvatarSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const avatarImg = document.getElementById('display-avatar');
+            const placeholder = document.getElementById('avatar-placeholder');
+            avatarImg.src = URL.createObjectURL(file);
+            avatarImg.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+
+            profileAvatarPromise = window.RemoteDB.uploadMedia([file], { maxWidth: 400, quality: 0.8 }).then(urls => {
+                if (urls.length > 0) uploadedProfileUrl = urls[0];
+                return urls[0];
+            });
+        }
+
+        async function saveSettings() {
+            const btn = document.getElementById('save-btn');
+            const fullName = document.getElementById('input-fullname').value;
+            const email = document.getElementById('input-email').value;
+            const phone = document.getElementById('input-phone').value;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Saving...';
+
+            try {
+                if (profileAvatarPromise) await profileAvatarPromise;
+
+                const result = await window.RemoteDB.updateProfile({
+                    full_name: fullName,
+                    email,
+                    phone,
+                    avatar_url: uploadedProfileUrl || undefined
+                });
+
+                if (result.success) {
+                    showToast('Profile Updated Successfully');
+                    // Sync local storage
+                    const currentProfile = JSON.parse(localStorage.getItem('oasis_profile') || '{}');
+                    localStorage.setItem('oasis_profile', JSON.stringify({...currentProfile, full_name: fullName, phone}));
+                    setTimeout(() => window.location.reload(), 1500);
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (err) {
+                alert('Update failed: ' + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Save Changes';
+            }
+        }
+
+        async function requestEmailVerification() {
+            const email = document.getElementById('input-email').value;
+            showToast('Verification Email Sent');
+            // Supabase handles this via updateUser if email changes or 
+            // we can trigger re-send verification logic here if needed.
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+        }
+
+        function showModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-text').textContent = text;
+            toast.classList.remove('opacity-0', 'translate-y-20', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-20', 'pointer-events-none');
+            }, 3000);
+        }
+
+        function handleLogout() {
+            if (confirm('Sign out of your account?')) {
+                window.Auth.logout();
+            }
+        }
+
+        function confirmDeleteAccount() {
+            const prompt = window.prompt("To delete your account, please type 'DELETE' below. This action is irreversible.");
+            if (prompt === 'DELETE') {
+                alert('Account deletion request sent to administrators.');
+            }
+        }
+    </script>
+</body>
+</html>

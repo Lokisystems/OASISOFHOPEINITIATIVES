@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#49ec13",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#152210",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <title>Oasis of Hope - Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/hero/favicon.ico" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <div class="flex flex-col min-h-screen">
+        <!-- Top Navigation -->
+        <header
+            class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
+            <div class="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto w-full">
+                <a href="dashboard.html" class="flex items-center gap-3 decoration-none">
+                    <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Admin Hub</h1>
+                </a>
+                <div class="flex items-center gap-4">
+                    <button class="p-2 rounded-full hover:bg-primary/10 transition-colors">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <div class="size-10 rounded-full border border-primary/20 bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-slate-400">person</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 w-full max-w-7xl mx-auto p-4 md:p-6 space-y-8">
+            <section class="bg-white dark:bg-slate-900 rounded-xl border border-primary/10 shadow-sm overflow-hidden">
+                <div class="px-6 py-4 border-b border-primary/10 flex justify-between items-center">
+                    <h3 class="font-bold text-lg">Community Directory & Moderation</h3>
+                    <div class="flex gap-2">
+                        <select id="statusFilter"
+                            class="text-xs rounded-lg border-primary/20 bg-transparent focus:ring-primary">
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead
+                            class="bg-primary/5 text-slate-500 text-[10px] uppercase tracking-widest font-bold border-b border-primary/10">
+                            <tr>
+                                <th class="px-6 py-4">User</th>
+                                <th class="px-6 py-4">Joined Date</th>
+                                <th class="px-6 py-4">Role</th>
+                                <th class="px-6 py-4">Status</th>
+                                <th class="px-6 py-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody" class="divide-y divide-primary/5">
+                            <tr>
+                                <td colspan="5" class="px-6 py-20 text-center">
+                                    <div class="flex flex-col items-center gap-3">
+                                        <div
+                                            class="size-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin">
+                                        </div>
+                                        <p class="text-slate-400 text-sm">Syncing with Oasis Registry...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+        <nav
+            class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-4 pb-6 pt-3 z-50">
+            <div class="max-w-md mx-auto flex justify-between items-center">
+                <a class="flex flex-col items-center gap-1.5 text-slate-400" href="dashboard.html">
+                    <span class="material-symbols-outlined text-[22px]">dashboard</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest">Dash</span>
+                </a>
+                <a class="flex flex-col items-center gap-1.5 text-primary" href="moderation.html">
+                    <span class="material-symbols-outlined text-[22px]"
+                        style="font-variation-settings: 'FILL' 1">group</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest">Users</span>
+                </a>
+                <a class="flex flex-col items-center gap-1.5 text-slate-400" href="moderation-queue.html">
+                    <span class="material-symbols-outlined text-[22px]">person_search</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest">Queue</span>
+                </a>
+                <a class="flex flex-col items-center gap-1.5 text-slate-400" href="content-control.html">
+                    <span class="material-symbols-outlined text-[22px]">gavel</span>
+                    <span class="text-[10px] font-black uppercase tracking-widest">Content</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/supabase.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        const UserModApp = {
+            currentPage: 1,
+            pageSize: 50,
+            hasMore: true,
+            isLoading: false,
+            userCache: {}, // { filter: [userData] }
+            activeFilter: 'all',
+
+            async init() {
+                const authLoop = setInterval(() => {
+                    if (window.Auth && window.Auth.getUser()) {
+                        this.activeFilter = document.getElementById('statusFilter').value;
+                        this.loadUsers(true);
+                        this.setupRealtime();
+                        document.getElementById('statusFilter').addEventListener('change', (e) => {
+                            this.activeFilter = e.target.value;
+                            this.loadUsers(true);
+                        });
+                        
+                        // Add scroll listener for lazy loading
+                        window.addEventListener('scroll', () => {
+                            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+                                if (this.hasMore && !this.isLoading) {
+                                    this.loadUsers(false);
+                                }
+                            }
+                        });
+
+                        clearInterval(authLoop);
+                    }
+                }, 100);
+            },
+
+            setupRealtime() {
+                if (window.RemoteDB.subscribeToRealtime) {
+                    window.RemoteDB.subscribeToRealtime('profiles', (payload) => {
+                        console.log('[Realtime] Profile change detected:', payload);
+                        // Clear cache on realtime update to ensure data consistency
+                        this.userCache = {};
+                        this.loadUsers(true);
+                    });
+                }
+            },
+
+            async loadUsers(reset = true) {
+                if (this.isLoading) return;
+                this.isLoading = true;
+
+                const tbody = document.getElementById('userTableBody');
+                
+                if (reset) {
+                    this.currentPage = 1;
+                    this.hasMore = true;
+                    // Check cache first
+                    if (this.userCache[this.activeFilter]) {
+                        tbody.innerHTML = this.userCache[this.activeFilter].map(user => this.renderUserRow(user)).join('');
+                        this.isLoading = false;
+                        // Don't return, still load fresh data in background
+                    } else {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="5" class="px-6 py-20 text-center">
+                                    <div class="flex flex-col items-center gap-3">
+                                        <div class="size-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                                        <p class="text-slate-400 text-sm">Syncing with Oasis Registry...</p>
+                                    </div>
+                                </td>
+                            </tr>`;
+                    }
+                }
+
+                // Fallback timeout for loading state
+                const timeout = setTimeout(() => {
+                    if (this.isLoading && reset && !this.userCache[this.activeFilter]) {
+                        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-20 text-center text-slate-500 italic">Registry sync timed out. Please refresh.</td></tr>`;
+                    }
+                }, 10000);
+
+                try {
+                    const users = await window.RemoteDB.getUsersByStatus(this.activeFilter, this.currentPage, this.pageSize);
+                    clearTimeout(timeout);
+
+                    if (reset) {
+                        tbody.innerHTML = '';
+                        this.userCache[this.activeFilter] = [];
+                    }
+
+                    if (!users || users.length === 0) {
+                        this.hasMore = false;
+                        if (reset) {
+                            tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-20 text-center text-slate-500 italic">No users found matching filter.</td></tr>`;
+                        }
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (users.length < this.pageSize) {
+                        this.hasMore = false;
+                    }
+
+                    this.userCache[this.activeFilter].push(...users);
+                    
+                    const rows = users.map(user => this.renderUserRow(user)).join('');
+                    if (reset) {
+                        tbody.innerHTML = rows;
+                    } else {
+                        tbody.insertAdjacentHTML('beforeend', rows);
+                    }
+                    
+                    this.currentPage++;
+                } catch (err) {
+                    console.error('Registry sync error:', err);
+                    if (reset && !this.userCache[this.activeFilter]) {
+                        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-20 text-center text-red-500 font-bold">Error: ${err.message}</td></tr>`;
+                    }
+                } finally {
+                    this.isLoading = false;
+                }
+            },
+
+            renderUserRow(user) {
+                const statusColors = {
+                    'approved': 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
+                    'pending': 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+                    'rejected': 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                };
+
+                const roleColors = {
+                    'admin': 'text-red-500 font-black',
+                    'volunteer': 'text-emerald-500 font-bold',
+                    'community': 'text-primary font-bold'
+                };
+
+                return `
+                    <tr class="group hover:bg-primary/5 transition-colors animate-in fade-in slide-in-from-left-4">
+                        <td class="px-6 py-5">
+                            <div class="flex items-center gap-3">
+                                <div class="size-10 rounded-xl overflow-hidden border border-primary/20 flex items-center justify-center bg-slate-100 dark:bg-slate-800 shrink-0">
+                                    ${user.avatar_url && !user.avatar_url.includes('logo.png') 
+                                        ? `<img src="${user.avatar_url}" class="w-full h-full object-cover" onerror="this.outerHTML='<span class=\\'material-symbols-outlined text-slate-400\\'>person</span>';">` 
+                                        : `<span class="material-symbols-outlined text-slate-400">person</span>`}
+                                </div>
+                                <div>
+                                    <p class="font-bold text-sm text-slate-900 dark:text-white">${user.username}</p>
+                                    <p class="text-[11px] text-slate-500">${user.email}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-5 text-sm text-slate-500">${new Date(user.created_at).toLocaleDateString()}</td>
+                        <td class="px-6 py-5">
+                            <span class="text-[10px] uppercase tracking-widest ${roleColors[user.role] || ''}">${user.role}</span>
+                        </td>
+                        <td class="px-6 py-5">
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-tight ${statusColors[user.status]}">
+                                ${user.status}
+                            </span>
+                        </td>
+                        <td class="px-6 py-5 text-right">
+                            <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="UserModApp.updateStatus('${user.id}', 'approved', '${user.username}')" class="size-8 rounded-lg bg-emerald-500 text-white hover:shadow-lg transition-all flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-sm">check</span>
+                                </button>
+                                <button onclick="UserModApp.updateStatus('${user.id}', 'rejected', '${user.username}')" class="size-8 rounded-lg bg-red-500 text-white hover:shadow-lg transition-all flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-sm">close</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            },
+
+            async updateStatus(userId, status, username) {
+                if (!confirm(`Are you sure you want to set ${username} to ${status}?`)) return;
+
+                const success = await window.RemoteDB.updateUserStatus(userId, status);
+                if (success) {
+                    if (window.RemoteDB.logAdminAction) {
+                        await window.RemoteDB.logAdminAction(status, username);
+                    }
+                    this.loadUsers();
+                    alert(`${username} status updated to ${status}.`);
+                } else {
+                    alert('Update failed. Permission denied.');
+                }
+            }
+        };
+
+        UserModApp.init();
+    </script>
+</body>
+
+</html>
