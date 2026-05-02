@@ -9,3 +9,18 @@ secret.txt
 # OS files
 .DS_Store
 Thumbs.db
+
+# --- DEPLOYMENT EXCLUSIONS ---
+# These files are for development only and should NOT be uploaded to the live server.
+
+# SQL migration scripts (run directly in Supabase dashboard, not served publicly)
+*.sql
+
+# Draft / versioned HTML files
+post-creation/
+
+# Architecture & planning docs
+plans/
+
+# Supabase local dev config
+supabase/

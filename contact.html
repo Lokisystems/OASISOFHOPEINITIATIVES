@@ -5,11 +5,12 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Contact Us | Oasis of Hope Initiatives</title>
+    <meta name="description" content="Get in touch with Oasis of Hope Initiatives. Reach out for inquiries about our healthcare programs, volunteering, partnerships, or donations in Isiolo County, Kenya." />
+    <meta name="keywords" content="Contact Oasis of Hope, Isiolo CBO, Volunteer Kenya, Partner Healthcare, Donate Isiolo" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link rel="icon" type="image/x-icon" href="assets/images/hero/favicon.ico" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
@@ -32,7 +33,6 @@
             },
         }
     </script>
-    <title>Contact Us - Oasis of Hope Initiatives</title>
     <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 
@@ -87,50 +87,51 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div
                 class="bg-white dark:bg-background-dark p-6 md:p-10 rounded-xl shadow-xl shadow-primary/5 border border-primary/10">
-                <form action="#" class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label class="text-sm font-semibold block">Full Name</label>
-                            <input
-                                class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all"
-                                placeholder="John Doe" type="text" />
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold block" for="contact-name">Full Name</label>
+                                <input id="contact-name"
+                                    class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all"
+                                    placeholder="John Doe" type="text" required />
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-semibold block" for="contact-email">Email Address</label>
+                                <input id="contact-email"
+                                    class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all"
+                                    placeholder="john@example.com" type="email" required />
+                            </div>
                         </div>
                         <div class="space-y-2">
-                            <label class="text-sm font-semibold block">Email Address</label>
-                            <input
-                                class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all"
-                                placeholder="john@example.com" type="email" />
+                            <label class="text-sm font-semibold block" for="contact-category">Category</label>
+                            <select id="contact-category"
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all">
+                                <option>General Inquiry</option>
+                                <option>Volunteer</option>
+                                <option>Partnership</option>
+                                <option>Donations</option>
+                            </select>
                         </div>
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-sm font-semibold block">Category</label>
-                        <select
-                            class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all">
-                            <option>General Inquiry</option>
-                            <option>Volunteer</option>
-                            <option>Partnership</option>
-                            <option>Donations</option>
-                        </select>
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-sm font-semibold block">Subject</label>
-                        <input
-                            class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all"
-                            placeholder="How can we help?" type="text" />
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-sm font-semibold block">Message</label>
-                        <textarea
-                            class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all"
-                            placeholder="Tell us more about your interest..." rows="5"></textarea>
-                    </div>
-                    <button
-                        class="w-full bg-primary hover:bg-primary/90 text-background-dark font-bold py-3 rounded-lg transition-all flex items-center justify-center gap-2"
-                        type="submit">
-                        <span>Send Message</span>
-                        <span class="material-symbols-outlined text-[18px]">send</span>
-                    </button>
-                </form>
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold block" for="contact-subject">Subject</label>
+                            <input id="contact-subject"
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all"
+                                placeholder="How can we help?" type="text" required />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold block" for="contact-message">Message</label>
+                            <textarea id="contact-message"
+                                class="w-full rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-primary focus:border-primary transition-all"
+                                placeholder="Tell us more about your interest..." rows="5" required></textarea>
+                        </div>
+                        <div id="contact-status" class="hidden text-sm font-bold px-4 py-3 rounded-lg"></div>
+                        <button id="contact-submit-btn"
+                            class="w-full bg-primary hover:bg-primary/90 text-background-dark font-bold py-3 rounded-lg transition-all flex items-center justify-center gap-2"
+                            type="submit">
+                            <span>Send Message</span>
+                            <span class="material-symbols-outlined text-[18px]">send</span>
+                        </button>
+                    </form>
             </div>
             <div class="space-y-8">
                 <div class="grid grid-cols-1 gap-6">
@@ -220,11 +221,11 @@
                 <div>
                     <h4 class="text-white font-bold mb-6 uppercase text-xs tracking-widest text-left">Programs</h4>
                     <ul class="space-y-4 text-sm font-medium text-left">
-                        <li><a class="hover:text-primary transition-colors" href="#">Primary Healthcare</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">Clean Water Projects</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">Women's Literacy</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">Mobile Medical Camps</a></li>
-                        <li><a class="hover:text-primary transition-colors" href="#">Vocational Training</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="programs.html">Primary Healthcare</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="programs.html">Clean Water Projects</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="programs.html">Women's Literacy</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="programs.html">Mobile Medical Camps</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="programs.html">Vocational Training</a></li>
                     </ul>
                 </div>
                 <div class="text-left">
@@ -241,7 +242,7 @@
             </div>
             <div
                 class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-slate-500">
-                <p>© 2024 Oasis of Hope Initiatives. All rights reserved.</p>
+                <p>© 2026 Oasis of Hope Initiatives. All rights reserved.</p>
                 <div class="flex gap-6">
                     <a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
                     <a class="hover:text-white transition-colors" href="#">Terms of Service</a>
@@ -283,7 +284,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const authNav = document.getElementById('auth-nav');
 
-            // Wait for Auth to initialize
+            // Auth nav update
             const checkAuth = setInterval(() => {
                 if (window.Auth) {
                     const user = window.Auth.getUser();
@@ -292,7 +293,7 @@
                             <div class="flex items-center gap-3">
                                 <a href="profile.html" class="flex items-center gap-2 group decoration-none cursor-pointer">
                                     <div class="w-8 h-8 rounded-full border border-primary/20 overflow-hidden flex items-center justify-center bg-slate-100 dark:bg-slate-800">
-                                        ${user.avatar && !user.avatar.includes('logo.png') 
+                                        ${user.avatar && !user.avatar.includes('logo.png')
                                             ? `<img src="${user.avatar}" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.outerHTML='<span class=\\'material-symbols-outlined text-slate-400 text-lg\\'>person</span>';">` 
                                             : `<span class="material-symbols-outlined text-slate-400 text-lg">person</span>`}
                                     </div>
@@ -310,6 +311,52 @@
                     clearInterval(checkAuth);
                 }
             }, 100);
+
+            // Contact form submission
+            const form = document.getElementById('contact-form');
+            const statusEl = document.getElementById('contact-status');
+            const submitBtn = document.getElementById('contact-submit-btn');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById('contact-name').value.trim();
+                const email = document.getElementById('contact-email').value.trim();
+                const category = document.getElementById('contact-category').value;
+                const subject = document.getElementById('contact-subject').value.trim();
+                const message = document.getElementById('contact-message').value.trim();
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Sending...';
+                statusEl.classList.add('hidden');
+
+                try {
+                    // Wait for RemoteDB
+                    let retries = 0;
+                    while ((!window.RemoteDB || !window.RemoteDB.supabase) && retries < 30) {
+                        await new Promise(r => setTimeout(r, 100));
+                        retries++;
+                    }
+
+                    const { error } = await window.RemoteDB.supabase
+                        .from('contact_messages')
+                        .insert([{ name, email, category, subject, message }]);
+
+                    if (error) throw error;
+
+                    statusEl.textContent = '\u2713 Message sent! We\'ll get back to you within 1-2 business days.';
+                    statusEl.className = 'text-sm font-bold px-4 py-3 rounded-lg bg-primary/10 text-slate-700 dark:text-slate-300 border border-primary/30';
+                    form.reset();
+                } catch (err) {
+                    console.error('Contact form error:', err);
+                    statusEl.textContent = 'Failed to send message. Please email us directly at info@oasisofhopeinitiativesisiolo.org';
+                    statusEl.className = 'text-sm font-bold px-4 py-3 rounded-lg bg-red-500/10 text-red-600 border border-red-500/20';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<span>Send Message</span><span class="material-symbols-outlined text-[18px]">send</span>';
+                    statusEl.classList.remove('hidden');
+                }
+            });
         });
     </script>
 </body>
