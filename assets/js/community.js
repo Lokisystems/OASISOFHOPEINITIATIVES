@@ -338,26 +338,53 @@ const Community = {
         const user = window.Auth.getUser();
         if (!user) return alert('Please login to post.');
 
+        // If any are still uploading, we show a warning or wait. 
+        // For better UX, let's wait up to a few seconds if they are almost done, otherwise alert.
+        const stillUploading = mediaToUpload.some(m => m.progress > 0 && m.progress < 100);
+        if (stillUploading) {
+            alert('Please wait for your media to finish uploading.');
+            return;
+        }
+
+        const failed = mediaToUpload.some(m => m.progress === -1);
+        if (failed) {
+            alert('Some media failed to upload. Please remove them and try again.');
+            return;
+        }
+
         this.textarea.value = '';
         this.selectedMedia = [];
         this.renderPreviews();
         this.handleTextInput();
 
         const tempId = 'temp-' + Date.now();
-        const optimisticPost = { id: tempId, text: text, created_at: new Date().toISOString(), author_username: user.username, author_avatar: user.avatar, author_role: user.role, media_items: mediaToUpload.map(m => ({ url: m.previewUrl, type: m.type })), is_optimistic: true };
+        const optimisticPost = { 
+            id: tempId, 
+            text: text, 
+            created_at: new Date().toISOString(), 
+            author_username: user.username, 
+            author_avatar: user.avatar, 
+            author_role: user.role, 
+            media_items: mediaToUpload.map(m => ({ url: m.previewUrl, type: m.type })), 
+            is_optimistic: true 
+        };
         this.feedContainer.insertAdjacentHTML('afterbegin', this.renderPostHtml(optimisticPost));
         
         try {
-            const mediaUploads = await Promise.all(mediaToUpload.map(m => m.uploadPromise));
-            const media_items = mediaUploads.filter(u => u && u.length > 0).map((urls, idx) => ({ url: urls[0], type: mediaToUpload[idx].type }));
+            const media_items = mediaToUpload
+                .filter(m => m.url)
+                .map(m => ({ url: m.url, type: m.type }));
 
-            const realPost = await window.RemoteDB.addCommunityPost({ text, media_items, tag: this.currentCategory !== 'All Updates' ? this.currentCategory : 'Community' });
+            const realPost = await window.RemoteDB.addCommunityPost({ 
+                text, 
+                media_items, 
+                tag: this.currentCategory !== 'All Updates' ? this.currentCategory : 'Community' 
+            });
 
             if (realPost) {
                 const optEl = document.querySelector(`[data-post-id="${tempId}"]`);
                 if (optEl) {
                     optEl.outerHTML = this.renderPostHtml(realPost);
-                    // Update cache for next load
                     this.updateCache();
                 }
             } else throw new Error('Post failed');
@@ -460,16 +487,67 @@ const Community = {
     async handleMediaSelect(event, type) {
         const files = Array.from(event.target.files);
         for (const file of files) {
-            const item = { file, type: type === 'photo' ? 'image' : type, previewUrl: URL.createObjectURL(file), id: Date.now() + Math.random(), uploadPromise: window.RemoteDB.uploadMedia([{ file }]) };
+            const id = Date.now() + Math.random();
+            const item = { 
+                file, 
+                type: type === 'photo' ? 'image' : type, 
+                previewUrl: URL.createObjectURL(file), 
+                id: id,
+                progress: 10,
+                url: null 
+            };
+            
             this.selectedMedia.push(item);
             this.renderPreviews();
             this.updateSubmitButtonState();
+
+            // Start upload immediately in background
+            window.RemoteDB.uploadMedia([file], {
+                onProgress: (idx, pct) => {
+                    const mediaItem = this.selectedMedia.find(m => m.id === id);
+                    if (mediaItem) {
+                        mediaItem.progress = pct;
+                        this.renderPreviews();
+                    }
+                }
+            }).then(urls => {
+                const mediaItem = this.selectedMedia.find(m => m.id === id);
+                if (mediaItem && urls[0]) {
+                    mediaItem.url = urls[0];
+                    mediaItem.progress = 100;
+                    this.renderPreviews();
+                    this.updateSubmitButtonState();
+                }
+            }).catch(err => {
+                console.error('Upload failed for item:', id, err);
+                const mediaItem = this.selectedMedia.find(m => m.id === id);
+                if (mediaItem) {
+                    mediaItem.progress = -1;
+                    this.renderPreviews();
+                }
+            });
         }
     },
 
     renderPreviews() {
         if (!this.mediaPreview) return;
-        this.mediaPreview.innerHTML = this.selectedMedia.map(m => `<div class="relative size-20 rounded-lg overflow-hidden shrink-0"><img src="${m.previewUrl}" class="w-full h-full object-cover"><button onclick="Community.removeMedia('${m.id}')" class="absolute top-0 right-0 size-5 bg-red-500 text-white rounded-full flex items-center justify-center text-[10px]">×</button></div>`).join('');
+        this.mediaPreview.innerHTML = this.selectedMedia.map(m => `
+            <div class="relative size-24 rounded-xl overflow-hidden shrink-0 border border-slate-200 dark:border-slate-700 shadow-sm bg-slate-100 dark:bg-slate-900">
+                <img src="${m.previewUrl}" class="w-full h-full object-cover ${m.progress < 100 && m.progress !== -1 ? 'opacity-40 grayscale' : ''}">
+                ${m.progress < 100 && m.progress !== -1 ? `
+                    <div class="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/20">
+                        <div class="size-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+                        <span class="text-[8px] font-black text-white uppercase tracking-tighter">${m.progress}%</span>
+                    </div>
+                ` : ''}
+                ${m.progress === -1 ? `
+                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-red-500/20">
+                        <span class="material-symbols-outlined text-red-500 text-lg">error</span>
+                    </div>
+                ` : ''}
+                <button onclick="Community.removeMedia('${m.id}')" class="absolute top-1 right-1 size-6 bg-black/60 hover:bg-red-500 text-white rounded-full flex items-center justify-center text-xs backdrop-blur-sm transition-colors">×</button>
+            </div>
+        `).join('');
     },
 
     removeMedia(id) {

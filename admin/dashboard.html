@@ -345,6 +345,17 @@
                         this.loadAuditLogs();
                         this.initComposer();
                         this.setupRealtime();
+                        
+                        // Set up global image error handler for profile avatars
+                        document.addEventListener('error', (e) => {
+                            if (e.target.tagName === 'IMG' && (e.target.id.includes('avatar') || e.target.id.includes('profile'))) {
+                                console.log('[Admin] Broken avatar detected, applying fallback');
+                                e.target.classList.add('hidden');
+                                const placeholder = e.target.parentElement?.querySelector('.material-symbols-outlined');
+                                if (placeholder) placeholder.classList.remove('hidden');
+                            }
+                        }, true);
+
                         clearInterval(authReady);
                     }
                 }, 100);
@@ -571,14 +582,21 @@
             },
 
             toggleProfileModal() {
-                document.getElementById('profileModal').classList.toggle('hidden');
+                const modal = document.getElementById('profileModal');
+                modal.classList.toggle('hidden');
+                if (modal.classList.contains('hidden')) return;
+
                 const user = window.Auth.getUser();
                 if (user) {
+                    document.getElementById('edit-username').value = user.username || '';
+                    document.getElementById('edit-fullname').value = user.full_name || '';
                     document.getElementById('edit-email').value = user.email || '';
                     document.getElementById('edit-phone').value = user.phone || '';
+                    document.getElementById('edit-bio').value = user.bio || '';
                     
                     const preview = document.getElementById('admin-profile-preview');
                     const placeholder = document.getElementById('admin-profile-placeholder');
+                    
                     if (user.avatar && !user.avatar.includes('logo.png')) {
                         preview.src = user.avatar;
                         preview.classList.remove('hidden');
@@ -599,10 +617,30 @@
                 if (!file) return;
                 const preview = document.getElementById('admin-profile-preview');
                 const placeholder = document.getElementById('admin-profile-placeholder');
+                
+                // Show immediate local preview
                 preview.src = URL.createObjectURL(file);
                 preview.classList.remove('hidden');
                 if(placeholder) placeholder.classList.add('hidden');
-                this.profileAvatarPromise = window.RemoteDB.uploadMedia([file], { maxWidth: 300, quality: 0.7 }).then(urls => {
+                
+                // Upload in background
+                const barContainer = document.getElementById('avatar-progress-container');
+                const bar = document.getElementById('avatar-progress-bar');
+                
+                barContainer.classList.remove('hidden');
+                bar.style.width = '0%';
+                barContainer.classList.remove('opacity-0');
+
+                this.profileAvatarPromise = window.RemoteDB.uploadMedia([file], { 
+                    maxWidth: 400, 
+                    quality: 0.8,
+                    onProgress: (idx, pct) => {
+                        bar.style.width = pct + '%';
+                        if (pct === 100) {
+                            setTimeout(() => barContainer.classList.add('opacity-0'), 1000);
+                        }
+                    }
+                }).then(urls => {
                     if (urls.length > 0) this.uploadedProfileUrl = urls[0];
                     return urls[0];
                 });
@@ -611,27 +649,38 @@
             async handleProfileUpdate(e) {
                 e.preventDefault();
                 const btn = document.getElementById('save-profile-btn');
+                const originalText = btn.textContent;
                 btn.disabled = true;
                 btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Saving...';
 
                 try {
                     if (this.profileAvatarPromise) await this.profileAvatarPromise;
+                    
+                    const email = document.getElementById('edit-email').value;
+                    const user = window.Auth.getUser();
+                    const emailChanged = email !== user.email;
+
                     const result = await window.RemoteDB.updateProfile({
-                        email: document.getElementById('edit-email').value,
+                        username: document.getElementById('edit-username').value,
+                        full_name: document.getElementById('edit-fullname').value,
+                        email: email,
                         phone: document.getElementById('edit-phone').value,
+                        bio: document.getElementById('edit-bio').value,
                         password: document.getElementById('edit-password').value || undefined,
                         avatar_url: this.uploadedProfileUrl || undefined
                     });
 
                     if (result.success) {
-                        alert('Settings saved!');
+                        let msg = 'Profile updated successfully!';
+                        if (emailChanged) msg += '\n\nPlease check your new email to verify the change.';
+                        alert(msg);
                         window.location.reload();
                     } else { throw new Error(result.error); }
                 } catch (err) {
                     alert('Save failed: ' + err.message);
                 } finally {
                     btn.disabled = false;
-                    btn.textContent = 'Save Changes';
+                    btn.textContent = originalText;
                 }
             }
         };
@@ -676,16 +725,38 @@
                                         onchange="AdminApp.handleAvatarSelect(event)">
                                 </label>
                             </div>
+                            <!-- Visual Progress Bar -->
+                            <div id="avatar-progress-container" class="hidden w-32 h-1 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                <div id="avatar-progress-bar" class="h-full bg-primary transition-all duration-300" style="width: 0%"></div>
+                            </div>
                             <p class="text-[9px] text-slate-500 uppercase font-black tracking-widest">Update Admin Photo
                             </p>
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-black uppercase text-slate-500 tracking-widest">Email
-                                Address</label>
+                            <label class="text-xs font-black uppercase text-slate-500 tracking-widest">Full Name</label>
                             <div class="relative">
-                                <span
-                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">mail</span>
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">badge</span>
+                                <input type="text" id="edit-fullname"
+                                    class="w-full pl-10 px-4 py-2.5 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary"
+                                    placeholder="Admin Name">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-black uppercase text-slate-500 tracking-widest">Username</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">alternate_email</span>
+                                <input type="text" id="edit-username"
+                                    class="w-full pl-10 px-4 py-2.5 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary"
+                                    placeholder="admin_handle">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-black uppercase text-slate-500 tracking-widest">Email Address</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">mail</span>
                                 <input type="email" id="edit-email"
                                     class="w-full pl-10 px-4 py-2.5 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary"
                                     placeholder="name@oasis.org">
@@ -693,15 +764,20 @@
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-black uppercase text-slate-500 tracking-widest">Phone
-                                Number</label>
+                            <label class="text-xs font-black uppercase text-slate-500 tracking-widest">Phone Number</label>
                             <div class="relative">
-                                <span
-                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">phone</span>
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">phone</span>
                                 <input type="tel" id="edit-phone"
                                     class="w-full pl-10 px-4 py-2.5 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary"
                                     placeholder="+254 700 000000">
                             </div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-black uppercase text-slate-500 tracking-widest">Admin Bio</label>
+                            <textarea id="edit-bio" rows="3"
+                                class="w-full px-4 py-2.5 rounded-xl border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-sm focus:ring-primary focus:border-primary resize-none"
+                                placeholder="A short bio about your role..."></textarea>
                         </div>
 
                         <div class="pt-4 border-t border-slate-100 dark:border-slate-800 mt-6">

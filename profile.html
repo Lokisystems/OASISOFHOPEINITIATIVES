@@ -79,6 +79,10 @@
                         <span class="material-symbols-outlined text-xl">photo_camera</span>
                         <input type="file" id="avatar-input" class="hidden" accept="image/*" onchange="handleAvatarSelect(event)">
                     </label>
+                    <!-- Visual Progress Bar -->
+                    <div id="avatar-progress-container" class="hidden w-24 h-1 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden absolute -bottom-6 left-1/2 -translate-x-1/2">
+                        <div id="avatar-progress-bar" class="h-full bg-primary transition-all duration-300" style="width: 0%"></div>
+                    </div>
                 </div>
                 
                 <div class="mt-6">
@@ -98,10 +102,17 @@
                     <h3 class="px-2 text-[10px] font-black uppercase text-slate-400 tracking-[0.2em]">Account Information</h3>
                     <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden divide-y divide-slate-100 dark:divide-slate-800">
                         <div class="p-4 flex items-center gap-4">
-                            <span class="material-symbols-outlined text-slate-400">person</span>
+                            <span class="material-symbols-outlined text-slate-400">badge</span>
                             <div class="flex-1">
                                 <label class="block text-[10px] uppercase font-bold text-slate-400">Full Name</label>
                                 <input type="text" id="input-fullname" class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold" placeholder="Enter full name">
+                            </div>
+                        </div>
+                        <div class="p-4 flex items-center gap-4">
+                            <span class="material-symbols-outlined text-slate-400">alternate_email</span>
+                            <div class="flex-1">
+                                <label class="block text-[10px] uppercase font-bold text-slate-400">Username</label>
+                                <input type="text" id="input-username" class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold" placeholder="Choose a handle">
                             </div>
                         </div>
                         <div class="p-4 flex items-center gap-4">
@@ -117,6 +128,13 @@
                             <div class="flex-1">
                                 <label class="block text-[10px] uppercase font-bold text-slate-400">Phone Number</label>
                                 <input type="tel" id="input-phone" class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold" placeholder="+254 ...">
+                            </div>
+                        </div>
+                        <div class="p-4 flex items-center gap-4">
+                            <span class="material-symbols-outlined text-slate-400">description</span>
+                            <div class="flex-1">
+                                <label class="block text-[10px] uppercase font-bold text-slate-400">Bio</label>
+                                <textarea id="input-bio" class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-bold resize-none" placeholder="Tell us about yourself..." rows="2"></textarea>
                             </div>
                         </div>
                     </div>
@@ -263,10 +281,15 @@
             // Header Overview
             const avatarImg = document.getElementById('display-avatar');
             const placeholder = document.getElementById('avatar-placeholder');
+            
             if (user.avatar && !user.avatar.includes('logo.png')) {
                 avatarImg.src = user.avatar;
                 avatarImg.classList.remove('hidden');
                 placeholder.classList.add('hidden');
+                avatarImg.onerror = () => {
+                    avatarImg.classList.add('hidden');
+                    placeholder.classList.remove('hidden');
+                };
             } else {
                 avatarImg.classList.add('hidden');
                 placeholder.classList.remove('hidden');
@@ -276,10 +299,11 @@
             document.getElementById('display-email').textContent = user.email;
 
             // Form Fields
-            const originalProfile = JSON.parse(localStorage.getItem('oasis_profile') || '{}');
-            document.getElementById('input-fullname').value = originalProfile.full_name || '';
+            document.getElementById('input-fullname').value = user.full_name || '';
+            document.getElementById('input-username').value = user.username || '';
             document.getElementById('input-email').value = user.email || '';
-            document.getElementById('input-phone').value = originalProfile.phone || '';
+            document.getElementById('input-phone').value = user.phone || '';
+            document.getElementById('input-bio').value = user.bio || '';
 
             // Approval Status Logic
             const banner = document.getElementById('status-banner');
@@ -319,7 +343,21 @@
             avatarImg.classList.remove('hidden');
             placeholder.classList.add('hidden');
 
-            profileAvatarPromise = window.RemoteDB.uploadMedia([file], { maxWidth: 400, quality: 0.8 }).then(urls => {
+            const barContainer = document.getElementById('avatar-progress-container');
+            const bar = document.getElementById('avatar-progress-bar');
+            barContainer.classList.remove('hidden', 'opacity-0');
+            bar.style.width = '0%';
+
+            profileAvatarPromise = window.RemoteDB.uploadMedia([file], { 
+                maxWidth: 400, 
+                quality: 0.8,
+                onProgress: (idx, pct) => {
+                    bar.style.width = pct + '%';
+                    if (pct === 100) {
+                        setTimeout(() => barContainer.classList.add('opacity-0'), 1000);
+                    }
+                }
+            }).then(urls => {
                 if (urls.length > 0) uploadedProfileUrl = urls[0];
                 return urls[0];
             });
@@ -328,27 +366,28 @@
         async function saveSettings() {
             const btn = document.getElementById('save-btn');
             const fullName = document.getElementById('input-fullname').value;
+            const username = document.getElementById('input-username').value;
             const email = document.getElementById('input-email').value;
             const phone = document.getElementById('input-phone').value;
+            const bio = document.getElementById('input-bio').value;
 
             btn.disabled = true;
-            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Saving...';
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Saving...';
 
             try {
                 if (profileAvatarPromise) await profileAvatarPromise;
 
                 const result = await window.RemoteDB.updateProfile({
                     full_name: fullName,
-                    email,
-                    phone,
+                    username: username,
+                    email: email,
+                    phone: phone,
+                    bio: bio,
                     avatar_url: uploadedProfileUrl || undefined
                 });
 
                 if (result.success) {
                     showToast('Profile Updated Successfully');
-                    // Sync local storage
-                    const currentProfile = JSON.parse(localStorage.getItem('oasis_profile') || '{}');
-                    localStorage.setItem('oasis_profile', JSON.stringify({...currentProfile, full_name: fullName, phone}));
                     setTimeout(() => window.location.reload(), 1500);
                 } else {
                     throw new Error(result.error);

@@ -109,10 +109,10 @@
         async addCommunityPost(postData) {
             if (!this.available) return null;
 
-            const user = await this.getUser();
+            const user = window.Auth?.getUser() || await this.getUser();
             if (!user) return null;
 
-            const profile = await this.getProfile(user.id);
+            const profile = window.Auth?.profile || await this.getProfile(user.id);
             if (!profile || (profile.status !== 'approved' && profile.role !== 'admin')) {
                 alert('Account pending approval.');
                 return null;
@@ -197,40 +197,48 @@
             }
         },
 
-        async compressImage(file, maxWidth = 1000, quality = 0.6) {
+        async compressImage(file, maxWidth = 1200, quality = 0.5) {
             if (!file.type.startsWith('image/')) return file;
+            
+            // Fast-path: if file is already small (e.g. < 200KB), don't compress
+            if (file.size < 200 * 1024) return file;
+
             return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width;
-                        let height = img.height;
-                        if (width > maxWidth) {
-                            height = Math.round((maxWidth / width) * height);
-                            width = maxWidth;
-                        }
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        canvas.toBlob((blob) => {
-                            const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", { type: 'image/jpeg' });
-                            console.log(`[RemoteDB] Compressed: ${(file.size/1024).toFixed(0)}KB → ${(blob.size/1024).toFixed(0)}KB`);
-                            resolve(compressedFile);
-                        }, 'image/jpeg', quality);
-                    };
-                    img.src = e.target.result;
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    // Maintain aspect ratio while scaling down
+                    if (width > maxWidth) {
+                        height = Math.round((maxWidth / width) * height);
+                        width = maxWidth;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Use better image smoothing
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'medium';
+                    
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    canvas.toBlob((blob) => {
+                        const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, "") + ".jpg", { type: 'image/jpeg' });
+                        console.log(`[RemoteDB] Optimized: ${(file.size / 1024).toFixed(0)}KB → ${(blob.size / 1024).toFixed(0)}KB`);
+                        resolve(compressedFile);
+                    }, 'image/jpeg', quality);
                 };
-                reader.readAsDataURL(file);
+                img.src = URL.createObjectURL(file);
             });
         },
 
         async uploadMedia(mediaItems, options = {}) {
             if (!this.available || !mediaItems || mediaItems.length === 0) return [];
 
-            // Get user ID once upfront (not per-file)
             let userId = 'anonymous';
             try {
                 const { data: { user } } = await this.client.auth.getUser();
@@ -239,16 +247,20 @@
                 console.warn('[RemoteDB] Could not get user for upload:', e);
             }
 
-            const maxWidth = options.maxWidth || 1000;
-            const quality = options.quality || 0.6;
+            const maxWidth = options.maxWidth || 1200;
+            const quality = options.quality || 0.5;
+            const onProgress = options.onProgress || (() => {});
 
-            const uploadPromises = mediaItems.map(async (item) => {
+            // Use Promise.all for true parallelism if multiple items are passed
+            const uploadPromises = mediaItems.map(async (item, index) => {
                 let file = item.file || item;
                 if (!file || !file.name) return null;
 
-                // Compress images with the specified options
+                onProgress(index, 10); // 10% - Started
+
+                // Compress images
                 if (file.type.startsWith('image/')) {
-                    console.log('[RemoteDB] Compressing image:', file.name);
+                    onProgress(index, 30); // 30% - Compressing
                     file = await this.compressImage(file, maxWidth, quality);
                 }
 
@@ -260,6 +272,8 @@
                 const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
                 const filePath = `${userId}/${year}/${month}/${fileName}`;
 
+                onProgress(index, 50); // 50% - Uploading
+
                 const { data, error } = await this.client.storage
                     .from('community-media')
                     .upload(filePath, file, {
@@ -268,9 +282,12 @@
                     });
 
                 if (error) {
+                    onProgress(index, -1); // Error state
                     console.error('Upload error:', error);
                     throw error;
                 }
+
+                onProgress(index, 100); // 100% - Done
 
                 const { data: { publicUrl } } = this.client.storage
                     .from('community-media')
@@ -371,7 +388,7 @@
 
         async updateProfile(updates) {
             if (!this.available) return { success: false, error: 'DB not available' };
-            const { email, password, phone, full_name, avatar_url } = updates;
+            const { email, password, phone, full_name, avatar_url, username, bio } = updates;
 
             try {
                 // Update Auth Data
@@ -387,8 +404,10 @@
                 // Update Profile Data
                 const profileUpdates = {};
                 if (full_name) profileUpdates.full_name = full_name;
+                if (username) profileUpdates.username = username;
                 if (email) profileUpdates.email = email;
                 if (phone) profileUpdates.phone = phone;
+                if (bio) profileUpdates.bio = bio;
                 if (avatar_url) profileUpdates.avatar_url = avatar_url;
 
                 const user = await this.getUser();
@@ -509,10 +528,16 @@
         async addStory(storyData) {
             if (!this.available) return null;
             try {
-                const user = await this.getUser();
-                if (!user) return null;
+                // Use the cached user from Auth to avoid a network roundtrip
+                const user = window.Auth?.getUser();
+                const userId = user?.id || (await this.getUser())?.id;
+                
+                if (!userId) {
+                    console.error('[RemoteDB] No user found for story');
+                    return null;
+                }
 
-                const { data, error } = await this.client
+                const { error } = await this.client
                     .from('stories')
                     .insert([{
                         title: storyData.title,
@@ -520,13 +545,11 @@
                         content: storyData.content,
                         image_url: storyData.image_url,
                         category: storyData.category || 'General',
-                        author_id: user.id
-                    }])
-                    .select()
-                    .single();
+                        author_id: userId
+                    }]);
                 
                 if (error) throw error;
-                return data;
+                return { success: true };
             } catch (err) {
                 console.error('[RemoteDB] Error adding story:', err);
                 return null;

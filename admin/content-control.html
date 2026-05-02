@@ -77,6 +77,10 @@
                         <div id="mediaPreview"
                             class="hidden absolute inset-0 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center">
                             <img src="" class="h-full w-full object-contain p-2">
+                            <!-- Visual Progress Bar -->
+                            <div class="absolute bottom-0 left-0 right-0 h-1 bg-slate-100 dark:bg-slate-800">
+                                <div id="mediaProgressBar" class="h-full bg-primary transition-all duration-300" style="width: 0%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -132,6 +136,10 @@
                         <p class="text-sm font-medium" id="storyMediaStatus">Click to upload story image</p>
                         <div id="storyMediaPreview" class="hidden absolute inset-0 bg-white dark:bg-slate-900 rounded-xl flex items-center justify-center">
                             <img src="" class="h-full w-full object-contain p-2">
+                            <!-- Visual Progress Bar -->
+                            <div class="absolute bottom-0 left-0 right-0 h-1 bg-slate-100 dark:bg-slate-800">
+                                <div id="storyProgressBar" class="h-full bg-primary transition-all duration-300" style="width: 0%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -278,18 +286,35 @@
                     const file = e.target.files[0];
                     if (!file) return;
 
-                    document.getElementById('mediaStatus').textContent = 'Uploading...';
-                    const urls = await window.RemoteDB.uploadMedia([file]);
-                    const url = urls[0];
+                    // 1. Immediate Preview
+                    const preview = document.getElementById('mediaPreview');
+                    const previewImg = preview.querySelector('img');
+                    previewImg.src = URL.createObjectURL(file);
+                    preview.classList.remove('hidden');
+                    document.getElementById('mediaStatus').textContent = 'Processing...';
 
-                    if (url) {
-                        this.uploadedMediaUrl = url;
-                        document.getElementById('mediaStatus').textContent = 'Media Ready!';
-                        const preview = document.getElementById('mediaPreview');
-                        preview.querySelector('img').src = url;
-                        preview.classList.remove('hidden');
-                    } else {
-                        document.getElementById('mediaStatus').textContent = 'Upload Failed.';
+                    // 2. Upload in background
+                    const urls = await window.RemoteDB.uploadMedia([file], {
+                        onProgress: (idx, pct) => {
+                            const status = document.getElementById('mediaStatus');
+                            const bar = document.getElementById('mediaProgressBar');
+                            
+                            if (pct === -1) {
+                                status.textContent = 'Upload Failed';
+                                bar.parentElement.classList.add('hidden');
+                            } else {
+                                bar.style.width = pct + '%';
+                                if (pct < 100) status.textContent = `Uploading ${pct}%...`;
+                                else {
+                                    status.textContent = 'Media Ready!';
+                                    setTimeout(() => bar.parentElement.classList.add('opacity-0'), 1000);
+                                }
+                            }
+                        }
+                    });
+
+                    if (urls[0]) {
+                        this.uploadedMediaUrl = urls[0];
                     }
                 };
 
@@ -298,32 +323,45 @@
                     const text = document.getElementById('announcementText').value;
                     const btn = document.getElementById('publishBtn');
 
+                    // If user clicks publish while still uploading, we wait for it
+                    if (this.uploadedMediaUrl === null && input.files.length > 0) {
+                        alert('Please wait for the media to finish uploading.');
+                        return;
+                    }
+
                     btn.disabled = true;
+                    const originalHtml = btn.innerHTML;
                     btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Publishing...';
 
                     const success = await window.RemoteDB.addCommunityPost({
                         text: text,
-                        media_url: this.uploadedMediaUrl,
-                        media_type: this.uploadedMediaUrl ? 'image' : 'none',
+                        media_items: this.uploadedMediaUrl ? [{url: this.uploadedMediaUrl, type: 'image'}] : [],
                         tag: 'Announcement'
                     });
 
                     if (success) {
+                        btn.innerHTML = '<span class="material-symbols-outlined text-green-500">check_circle</span> Published!';
                         if (window.RemoteDB.logAdminAction) {
                             await window.RemoteDB.logAdminAction('published announcement', text.substring(0, 30) + '...');
                         }
-                        alert('Official update published!');
-                        form.reset();
-                        this.uploadedMediaUrl = null;
-                        document.getElementById('mediaPreview').classList.add('hidden');
-                        document.getElementById('mediaStatus').textContent = 'Click to add photo/video';
-                        this.loadPosts();
+                        setTimeout(() => {
+                            alert('Official update published!');
+                            form.reset();
+                            this.uploadedMediaUrl = null;
+                            document.getElementById('mediaPreview').classList.add('hidden');
+                            document.getElementById('mediaStatus').textContent = 'Click to add photo/video';
+                            this.loadPosts();
+                            btn.disabled = false;
+                            btn.innerHTML = originalHtml;
+                        }, 500);
                     } else {
                         alert('Publish failed.');
+                        btn.disabled = false;
+                        btn.innerHTML = originalHtml;
                     }
 
                     btn.disabled = false;
-                    btn.innerHTML = '<span class="material-symbols-outlined">send</span> Publish Announcement';
+                    btn.innerHTML = originalHtml;
                 };
             },
 
@@ -339,24 +377,52 @@
                     const file = e.target.files[0];
                     if (!file) return;
 
-                    document.getElementById('storyMediaStatus').textContent = 'Uploading...';
-                    const urls = await window.RemoteDB.uploadMedia([file]);
+                    // 1. Immediate Preview
+                    const preview = document.getElementById('storyMediaPreview');
+                    preview.querySelector('img').src = URL.createObjectURL(file);
+                    preview.classList.remove('hidden');
+                    document.getElementById('storyMediaStatus').textContent = 'Processing...';
+
+                    // 2. Upload in background
+                    const urls = await window.RemoteDB.uploadMedia([file], {
+                        maxWidth: 1000, // Slightly smaller for faster uploads
+                        quality: 0.4,   // Lower quality for speed
+                        onProgress: (idx, pct) => {
+                            const status = document.getElementById('storyMediaStatus');
+                            const bar = document.getElementById('storyProgressBar');
+                            if (pct === -1) {
+                                status.textContent = 'Upload Failed';
+                                bar.style.width = '0%';
+                            } else {
+                                bar.style.width = pct + '%';
+                                if (pct < 100) status.textContent = `Uploading ${pct}%...`;
+                                else {
+                                    status.textContent = 'Image Ready!';
+                                    setTimeout(() => bar.parentElement.classList.add('opacity-0'), 1000);
+                                }
+                            }
+                        }
+                    });
+
                     if (urls[0]) {
                         uploadedUrl = urls[0];
-                        document.getElementById('storyMediaStatus').textContent = 'Image Ready!';
-                        const preview = document.getElementById('storyMediaPreview');
-                        preview.querySelector('img').src = uploadedUrl;
-                        preview.classList.remove('hidden');
                     }
                 };
 
                 form.onsubmit = async (e) => {
                     e.preventDefault();
                     const btn = document.getElementById('publishStoryBtn');
-                    btn.disabled = true;
-                    btn.innerHTML = 'Publishing...';
+                    
+                    if (uploadedUrl === null && input.files.length > 0) {
+                        alert('Still uploading image... Please wait a second.');
+                        return;
+                    }
 
-                    const success = await window.RemoteDB.addStory({
+                    btn.disabled = true;
+                    const originalHtml = btn.innerHTML;
+                    btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> Publishing...';
+
+                    const result = await window.RemoteDB.addStory({
                         title: document.getElementById('storyTitle').value,
                         category: document.getElementById('storyCategory').value,
                         summary: document.getElementById('storySummary').value,
@@ -364,17 +430,23 @@
                         image_url: uploadedUrl
                     });
 
-                    if (success) {
-                        alert('Story published successfully!');
-                        form.reset();
-                        uploadedUrl = null;
-                        document.getElementById('storyMediaPreview').classList.add('hidden');
-                        document.getElementById('storyMediaStatus').textContent = 'Click to upload story image';
+                    if (result && result.success) {
+                        // Success Feedback
+                        btn.innerHTML = '<span class="material-symbols-outlined text-green-500">check_circle</span> Published!';
+                        setTimeout(() => {
+                            alert('News Story published successfully!');
+                            form.reset();
+                            uploadedUrl = null;
+                            document.getElementById('storyMediaPreview').classList.add('hidden');
+                            document.getElementById('storyMediaStatus').textContent = 'Click to upload story image';
+                            btn.disabled = false;
+                            btn.innerHTML = originalHtml;
+                        }, 500);
                     } else {
-                        alert('Failed to publish story.');
+                        alert('Failed to publish story: ' + (result?.error || 'Unknown error'));
+                        btn.disabled = false;
+                        btn.innerHTML = originalHtml;
                     }
-                    btn.disabled = false;
-                    btn.innerHTML = '<span class="material-symbols-outlined">auto_stories</span> Publish Story';
                 };
             }
         };
